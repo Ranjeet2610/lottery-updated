@@ -16,7 +16,7 @@ export default class NavBar extends Component {
                             {
                                 <li className="has-sub">
                                     <Link onClick={()=>{this.props.manageToggle("Admin")}}>
-                                    <i className="fas fa-users"/>Dashboard</Link>
+                                    <i className="fas fa-chalkboard-teacher"/>Dashboard</Link>
                                 </li>
                             }
     

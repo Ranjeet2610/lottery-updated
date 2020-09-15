@@ -61,18 +61,20 @@ export default class WebHeader extends Component {
     }
 
     handleChangePassword = () => {
-        // debugger
+        // debugger         
         const obj = {
             userName:this.state.userName,
-            password:this.state.newPassword
+            oldPassword:this.state.oldPassword,
+            newPassword:this.state.newPassword,
             }
-        POST("changePassword",obj,{headerStatus:true})
+        POST("changePasswordByUser",obj,{headerStatus:true})
         .then(res=>{
             console.log("changePassword",res)
         })
         .catch(error=>{
             console.log(error)
         })
+        this.handleClose();
     }
 
     render() {
