@@ -29,9 +29,9 @@ export default class Agentdashboard extends Component {
         }
     }
 
-    componentDidMount(){
-        console.log("fkns",this.props)
-    }
+    // componentDidMount(){
+    //     console.log("fkns",this.props)
+    // }
 
 
     render() {
@@ -43,7 +43,7 @@ export default class Agentdashboard extends Component {
                     <div className="page-container">
                         <WebHeader/>
                         <div className="main-content">                   
-                            {   this.state.lottery ? <Lottery/> : null }
+                            {   this.state.cricket===false ? <Lottery/> : null }
                             {   this.state.cricket ? <Cricket/> : null }
                         </div>
                     </div>

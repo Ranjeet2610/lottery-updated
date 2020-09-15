@@ -25,12 +25,12 @@ export default class MobNavbar extends Component {
                                 </li>
         
                                 <li>
-                                    <Link href="manage-lottery.html">
+                                    <Link>
                                         <i className="fas fa-ticket-alt"></i>Manage Lottery</Link>
                                 </li>
         
                                 <li>
-                                    <Link href="manage-cricket.html">
+                                    <Link>
                                         <i className="fas fa-volleyball-ball"></i>Manage Cricket</Link>
                                 </li>
         

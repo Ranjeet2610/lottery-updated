@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Link} from 'react-router-dom'
+import {POST} from '../Services/Api'
 
 export default class login extends Component {
     constructor(props){
@@ -8,6 +8,8 @@ export default class login extends Component {
             email:'',
             password:'',
             rememberMe:'',
+            loggedIn:'',
+            errorMsg:'',
         }
     }
 
@@ -19,7 +21,33 @@ export default class login extends Component {
 
     handleOnSubmit = (event) => {
         event.preventDefault();
-        console.log(this.state.email,this.state.password,this.state.rememberMe)
+        const obj = {
+            userName:this.state.email,
+            password:this.state.password
+        }
+        POST("login",obj)
+        .then(res=>{
+            if (res.data.success) {  
+                this.setState({
+                    loggedIn:res.data.token
+                })
+                localStorage.setItem("token",res.data.token);
+                localStorage.setItem("user",JSON.stringify(res.data));
+                let token = localStorage.getItem("token");
+                if(token){
+                    return this.props.history.push("/admin")
+                }       
+            }
+            else{
+                this.setState({
+                    loggedIn:res.data.message
+                })
+            }   
+        })
+        .catch(error=>{
+            console.log(error)
+            
+        })
     }
 
     render() {
@@ -38,7 +66,7 @@ export default class login extends Component {
                                             <form>
                                                 <div className="form-group">
                                                     <label for="exampleInputEmail1">Email address</label>
-                                                    <input type="email" name="email" onChange={this.handleOnChange} required className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" />
+                                                    <input type="text" name="email" onChange={this.handleOnChange} required className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" />
                                                 </div>
                 
                                                 <div className="form-group">
@@ -49,11 +77,10 @@ export default class login extends Component {
                                                 <div className="form-check pt-3">
                                                     <input type="checkbox" name="rememberMe" onChange={this.handleOnChange} required className="form-check-input" id="exampleCheck1" />
                                                     <label className="form-check-label" for="exampleCheck1">Remember Me </label>
-                                                    <label>
-                                                        <Link to="/forgetpassword" className="text-danger" style={{paddingLeft: '10rem'}}>Forgot Password?</Link>
-                                                    </label>
                                                 </div>
-                
+                                                <div className="form-check" style={{color:'red'}}>
+                                                    {this.state.loggedIn}
+                                                </div>
                                                 <button type="button" onClick={this.handleOnSubmit} className="btn btn-primary btn-smt-2">sign in</button>
                                             </form>
                                         </div>

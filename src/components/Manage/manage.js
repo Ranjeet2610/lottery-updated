@@ -10,6 +10,7 @@ export default class manage extends Component {
     constructor(){
         super();
         this.state = {
+            AdminPage:false,
             Manage_Lottery:false,
             Manage_Cricket:false,
         }
@@ -18,14 +19,23 @@ export default class manage extends Component {
     manageToggle = (id) =>{
         if(id === "Manage_Lottery"){
             this.setState({
+                AdminPage:false,
                 Manage_Cricket:false,
                 Manage_Lottery:!this.state.Manage_Lottery
             })
         }
         else if(id === "Manage_Cricket"){
             this.setState({
+                AdminPage:false,
                 Manage_Lottery:false,
                 Manage_Cricket:!this.state.Manage_Cricket
+            })
+        }
+        else{
+            this.setState({
+                AdminPage:!this.state.AdminPage,
+                Manage_Lottery:false,
+                Manage_Cricket:false,
             })
         }
     }
@@ -34,12 +44,13 @@ export default class manage extends Component {
         return (
             <div className="animsition">
                 <div className="page-wrapper">
-                    <MobHeader/>
+                    <MobHeader manageToggle={(id) => this.manageToggle(id)}/>
                     <NavBar manageToggle={(id) => this.manageToggle(id) }/>         
                     <div className="page-container">
                         <WebHeader/>
                         <div className="main-content">
-                            {(this.state.Manage_Cricket===false && this.state.Manage_Lottery === false) ? <AdminPage/> : null}
+                            {(this.state.Manage_Cricket===false && this.state.Manage_Lottery === false && this.state.AdminPage===false) ? <AdminPage/> : null}
+                            {   this.state.AdminPage ? <AdminPage/> : null }
                             {   this.state.Manage_Lottery ? <ManageLottery/> : null }
                             {   this.state.Manage_Cricket ? <ManageCricket/> : null }
                         </div>
