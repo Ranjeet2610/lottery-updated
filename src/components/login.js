@@ -27,6 +27,7 @@ export default class login extends Component {
         }
         POST("login",obj)
         .then(res=>{
+            console.log(res)
             if (res.data.success) {  
                 this.setState({
                     loggedIn:res.data.token
@@ -42,11 +43,12 @@ export default class login extends Component {
                 this.setState({
                     loggedIn:res.data.message
                 })
+                // console.log(this.state.loggedIn)
+
             }   
         })
         .catch(error=>{
-            console.log(error)
-            
+            alert("login",error);   
         })
     }
 
@@ -66,16 +68,16 @@ export default class login extends Component {
                                             <form>
                                                 <div className="form-group">
                                                     <label for="exampleInputEmail1">Email address</label>
-                                                    <input type="text" name="email" onChange={this.handleOnChange} required className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" />
+                                                    <input type="text" name="email" onChange={this.handleOnChange} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" />
                                                 </div>
                 
                                                 <div className="form-group">
                                                     <label for="exampleInputPassword1">Password</label>
-                                                    <input type="password" name="password" onChange={this.handleOnChange} required className="form-control" id="exampleInputPassword1" placeholder="Password" />
+                                                    <input type="password" name="password" onChange={this.handleOnChange} className="form-control" id="exampleInputPassword1" placeholder="Password" />
                                                 </div>
                                                 
                                                 <div className="form-check pt-3">
-                                                    <input type="checkbox" name="rememberMe" onChange={this.handleOnChange} required className="form-check-input" id="exampleCheck1" />
+                                                    <input type="checkbox" name="rememberMe" onChange={this.handleOnChange} className="form-check-input" id="exampleCheck1" />
                                                     <label className="form-check-label" for="exampleCheck1">Remember Me </label>
                                                 </div>
                                                 <div className="form-check" style={{color:'red'}}>

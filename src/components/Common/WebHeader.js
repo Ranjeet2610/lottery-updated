@@ -4,9 +4,7 @@ import {Link} from 'react-router-dom'
 import { POST } from '../../Services/Api';
 
 export default class WebHeader extends Component {
-    constructor(props){
-        super(props);
-        this.state={
+        state={
             drop:'',
             userName:'',
             show:false,
@@ -14,7 +12,6 @@ export default class WebHeader extends Component {
             newPassword:'',
             confirmPassword:'',
         }
-    }
 
     handleShow = () => {
         this.setState({
@@ -47,11 +44,12 @@ export default class WebHeader extends Component {
     }
 
     handleLogout = () => {
-        localStorage.removeItem("token");
-        let token = localStorage.hasOwnProperty("token");
-        if(!token){
-            return window.location.href="/login"
-        }
+        localStorage.clear()
+        // localStorage.removeItem("token");
+        // let token = localStorage.hasOwnProperty("token");
+        // if(!token){
+            window.location.href="/login"
+        // }
     }
 
     handleChange = (event) => {
