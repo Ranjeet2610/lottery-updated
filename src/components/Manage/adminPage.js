@@ -15,6 +15,7 @@ export default class adminPage extends Component {
       Date: "",
       password: "",
       agentInfo: [],
+      updatedChips:'',
       walletBalance: 0,
       viewMore: "none",
       viewCommission: "none",
@@ -124,7 +125,7 @@ export default class adminPage extends Component {
     };
     POST("createAccount", obj, { headerStatus: true })
       .then((res) => {
-        const Data = this.getAgentList().catch((error) => {
+        this.getAgentList().catch((error) => {
           console.log(error);
         });
       })
@@ -145,7 +146,7 @@ export default class adminPage extends Component {
           // this.setState({
           //   agentInfo:
           // })
-          console.log(res)
+          console.log("debitAmountByAdmin",res)
         })
         .catch((error) => {
           console.log(error);
@@ -153,12 +154,16 @@ export default class adminPage extends Component {
     } else {
       POST("creditAmountByAdmin", obj, { headerStatus: true })
         .then((res) => {
-          console.log("creditAmountByAdmin ",res);
+          this.setState({
+            updatedChips:res.data.Data.walletBalance
+          })
+          console.log("creditAmountByAdmin ",this.state.updatedChips);
         })
         .catch((error) => {
           console.log(error);
         });
     }
+    window.location.reload();
     this.handleClose("Deposit");
   };
 

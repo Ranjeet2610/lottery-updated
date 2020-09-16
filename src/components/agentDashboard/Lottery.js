@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
 import Modal from 'react-bootstrap/Modal'
-
+import { POST, GET } from "../../Services/Api";
 
 export default class Lottery extends Component {
     constructor(props){
@@ -11,7 +11,20 @@ export default class Lottery extends Component {
 
         this.state={
             show:false,
-            arr:rows
+            arr:rows,
+            one:0,
+            two:0,
+            three:0,
+            four:0,
+            five:0,
+            six:0,
+            seven:0,
+            eight:0,
+            nine:0,
+            ten:0,
+            agentName:'',
+            agentID:'',
+            lottery:this.props.lotteryTicketData
           }
     }
 
@@ -36,7 +49,40 @@ export default class Lottery extends Component {
         })
     }
 
+    handleChange = (event) => {
+        this.setState({
+            [event.target.name]:event.target.value
+        })   
+    }
+
+    handleSubmit = () => {
+        let totalAmount=parseInt(this.state.one)+parseInt(this.state.two)+parseInt(this.state.three)+parseInt(this.state.four)+parseInt(this.state.five)+parseInt(this.state.six)+parseInt(this.state.seven)+parseInt(this.state.eight)+parseInt(this.state.nine)+parseInt(this.state.ten)
+        const obj = {
+            one:this.state.one,
+            two:this.state.two,
+            three:this.state.three,
+            four:this.state.four,
+            five:this.state.five,
+            six:this.state.six,
+            seven:this.state.seven,
+            eight:this.state.eight,
+            nine:this.state.nine,
+            ten:this.state.ten,
+            agentName:this.state.agentName,
+            agentId:this.state.agentID,
+            totalAmount:totalAmount
+        }
+        POST("generateTicket",obj,{headerStatus:true})
+        .then(res=>{
+            console.log(res)
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+
     render() {
+        console.log("kgh",this.props)
         return (
             <div>
 
@@ -46,93 +92,78 @@ export default class Lottery extends Component {
                 </Modal.Header>
 
                 <Modal.Body>
-                    <h4 className="pt-3" style={{color:'black'}}>Number</h4>
-                    <form>
+                    <h4 className="pt-3" style={{color:'black'}}>Numbers</h4>
+                    
                     <div className="form-group row mx-1">
                         <div className="col-xs-1 ml-2 my-2">
                             <Link name="0" style={{color :'white'}} onClick={this.handleButton} className="btn btn-primary btn-lg my-1 ml-3 focus">1</Link>
-                            <input disabled={this.state.arr[0]} className="form-control" id="ex1" type="text" size="2"/>
+                            <input name="one" onChange={this.handleChange} disabled={this.state.arr[0]} className="form-control" id="ex1" type="text" size="2"/>
                         </div>
 
                         <div className="col-xs-1 ml-2 my-2">
                             <Link name="1" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-3 focus">2</Link>
-                            <input disabled={this.state.arr[1]} className="form-control" id="ex1" type="text" size="2"/>
+                            <input name="two" onChange={this.handleChange} disabled={this.state.arr[1]} className="form-control" id="ex1" type="text" size="2"/>
                         </div>
 
                         <div className="col-xs-1 ml-2 my-2">
                             <Link name="2" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-3 focus">3</Link>
-                            <input disabled={this.state.arr[2]} className="form-control" id="ex1" type="text" size="2"/>
+                            <input name="three" onChange={this.handleChange} disabled={this.state.arr[2]} className="form-control" id="ex1" type="text" size="2"/>
                         </div>
 
                         <div className="col-xs-1 ml-2 my-2">
                             <Link  name="3" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-3 focus">4</Link>
-                            <input disabled={this.state.arr[3]} className="form-control" id="ex1" type="text" size="2"/>
+                            <input name="four" onChange={this.handleChange} disabled={this.state.arr[3]} className="form-control" id="ex1" type="text" size="2"/>
                         </div>
 
                         <div className="col-xs-1 ml-2 my-2">
                             <Link name="4" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-3 focus">5</Link>
-                            <input disabled={this.state.arr[4]} className="form-control" id="ex1" type="text" size="2"/>
+                            <input name="five" onChange={this.handleChange} disabled={this.state.arr[4]} className="form-control" id="ex1" type="text" size="2"/>
                         </div>
 
                         <div className="col-xs-1 ml-2 my-2">
                             <Link name="5" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-3 focus">6</Link>
-                            <input disabled={this.state.arr[5]} className="form-control" id="ex1" type="text" size="2"/>
+                            <input name="six" onChange={this.handleChange} disabled={this.state.arr[5]} className="form-control" id="ex1" type="text" size="2"/>
                         </div>
 
                         <div className="col-xs-1 ml-2 my-2">
                             <Link name="6" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-3 focus">7</Link>
-                            <input disabled={this.state.arr[6]} className="form-control" id="ex1" type="text" size="2"/>
+                            <input name="seven" onChange={this.handleChange} disabled={this.state.arr[6]} className="form-control" id="ex1" type="text" size="2"/>
                         </div>
 
                         <div className="col-xs-1 ml-2 my-2">
                             <Link name="7" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-3 focus">8</Link>
-                            <input disabled={this.state.arr[7]} className="form-control" id="ex1" type="text" size="2"/>
+                            <input name="eight" onChange={this.handleChange} disabled={this.state.arr[7]} className="form-control" id="ex1" type="text" size="2"/>
                         </div>
 
                         <div className="col-xs-1 ml-2 my-2">
                             <Link name="8" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-3 focus">9</Link>
-                            <input disabled={this.state.arr[8]} className="form-control" id="ex1" type="text" size="2"/>
+                            <input name="nine" onChange={this.handleChange} disabled={this.state.arr[8]} className="form-control" id="ex1" type="text" size="2"/>
                         </div>
 
                         <div className="col-xs-1 ml-2 my-2">
-                            <Link  name="9" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-2 focus">10</Link>
-                            <input disabled={this.state.arr[9]} className="form-control" id="ex1" type="text" size="2"/>
+                            <Link name="9" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-2 focus">10</Link>
+                            <input name="ten" onChange={this.handleChange} disabled={this.state.arr[9]} className="form-control" id="ex1" type="text" size="2"/>
                         </div>
                     </div>
-                    </form>
+                    
                     <div className="modal-body mx-3">
                         <div className="container">
                             <div className="row">
-                                <div className="col-lg-6 col-sm-6 col-xs-6">
-                                    <div className="md-form mb-4">
-                                        <label data-error="wrong" data-success="right" for="defaultForm-email" style={{color:'black'}}>Total Amount</label>
-                                        <input type="number" id="defaultForm-email" className="form-control validate" placeholder="Amount"/>
+                                
+                            {
+                                // <div className="col-lg-6 col-sm-6 col-xs-6">
+                                //     <div className="md-form mb-4">
+                                //         <label data-error="wrong" data-success="right" for="defaultForm-email" style={{color:'black'}}>Total Amount</label>
+                                //         <input type="number" id="defaultForm-email" className="form-control validate" placeholder="Amount"/>
                         
-                                    </div>
-                                </div>
-                        
-                                <div className="col-lg-6 col-sm-6 col-xs-6">
-                                    <div className="md-form mb-4">
-                                        <label data-error="wrong" data-success="right" for="defaultForm-email" style={{color:'black'}}>Draw no.</label>
-                                        <input type="text" id="defaultForm-email" className="form-control validate" placeholder="draw no."/>
-                                    </div>
-                                </div>
-                            </div>
-                        
-                            <div className="row">
+                                //     </div>
+                                // </div>
+                            }
+
                                 <div className="col-lg-6 col-sm-6 col-xs-6">
                                     <div className="md-form mb-4">
                                         <label data-error="wrong" data-success="right" for="defaultForm-email" style={{color:'black'}}>Agent Name</label>
-                                        <input type="text" id="defaultForm-email" className="form-control validate" placeholder="Agent Name"/>
-                        
-                                    </div>
-                                </div>
-                        
-                                <div className="col-lg-6 col-sm-6 col-xs-6">
-                                    <div className="md-form mb-4">
-                                        <label data-error="wrong" data-success="right" for="defaultForm-email" style={{color:'black'}}>Agent ID</label>
-                                        <input type="text" id="defaultForm-email" className="form-control validate" placeholder="Agent ID"/>
-                        
+                                        <input name="agentName" onChange={this.handleChange} type="text" id="defaultForm-email" className="form-control validate" placeholder="Agent Name"/>
                                     </div>
                                 </div>
                             </div>
@@ -140,28 +171,17 @@ export default class Lottery extends Component {
                             <div className="row">
                                 <div className="col-lg-6 col-sm-6 col-xs-6">
                                     <div className="md-form mb-4">
-                                        <label data-error="wrong" data-success="right" for="defaultForm-email" style={{color:'black'}}>Date & Time</label>
-                                        <input type="datetime-local" id="defaultForm-email" className="form-control validate" placeholder="Date & Time"/>
-                                      
-                                      </div>
-                                </div>
-                        
-                                <div className="col-lg-6 col-sm-6 col-xs-6">
-                                    <div className="md-form mb-4">
-                                        <label data-error="wrong" data-success="right" for="defaultForm-email" style={{color:'black'}}>QR Code</label>
-                                        <input type="text" id="defaultForm-email" className="form-control validate" placeholder="QR Code"/>
-                        
+                                        <label data-error="wrong" data-success="right" for="defaultForm-email" style={{color:'black'}}>Agent ID</label>
+                                        <input name="agentID" onChange={this.handleChange} type="text" id="defaultForm-email" className="form-control validate" placeholder="Agent ID"/>
                                     </div>
                                 </div>
-                            </div>
-                        
+                            </div>                  
                         </div>
-              
                     </div>
                 </Modal.Body>
 
                 <Modal.Footer  style={{justifyContent:'center'}}>
-                    <button type="submit" className="btn btn-md btn-success">Submit</button>
+                    <button type="button" className="btn btn-md btn-success" onClick={this.handleSubmit}>Submit</button>
                     <button type="reset" className="btn btn-md btn-secondary">Reset</button>
                 </Modal.Footer>
             </Modal>
@@ -231,146 +251,6 @@ export default class Lottery extends Component {
                     </div>
                 </div>
             </div>
-            
-                {
-                    // <div className="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-            //     aria-hidden="true">
-            //     <div className="modal-dialog" role="document">
-            //       <div className="modal-content">
-            //       <div className="modal-header text-center">
-            //           <h4 className="modal-title w-100">Create Ticket</h4>
-            //           <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-            //           <span aria-hidden="true">&times;</span>
-            //           </button>
-            //         </div>
-
-            //         <div className="container">
-            //             <h4 className="pt-3">Number</h4>
-            //             <form className="text-center">
-            //             <div className="form-group row mx-1">
-            //             <div className="col-xs-1 ml-2 my-2">
-            //             <a href="#" role="button" className="btn btn-primary btn-xs my-1">1</a>
-            //             <input className="form-control" id="ex1" type="text" size="1"/>
-            //             </div>
-                        
-            //             <div className="col-xs-1 ml-2 my-2">
-            //             <a href="#" role="button" className="btn btn-primary btn-xs my-1">2</a>
-            //             <input className="form-control" id="ex1" type="text" size="1"/>
-            //             </div>
-
-            //             <div className="col-xs-1 ml-2 my-2">
-            //                     <a href="#" role="button" className="btn btn-primary btn-xs my-1">3</a>
-            //                     <input className="form-control" id="ex1" type="text" size="1"/>
-            //                   </div>
-                              
-            //                   <div className="col-xs-1 ml-2 my-2">
-            //                   <a href="#" role="button" className="btn btn-primary btn-xs my-1">4</a>
-            //                     <input className="form-control" id="ex1" type="text" size="1"/>
-            //                     </div>
-
-            //                   <div className="col-xs-1 ml-2 my-2">
-            //                   <a href="#" role="button" className="btn btn-primary btn-xs my-1">5</a>
-            //                     <input className="form-control" id="ex1" type="text" size="1"/>
-            //                     </div>
-                                
-            //                   <div className="col-xs-1 ml-2 my-2">
-            //                   <a href="#" role="button" className="btn btn-primary btn-xs my-1">6</a>
-            //                     <input className="form-control" id="ex1" type="text" size="1"/>
-            //                     </div>
-
-            //                     <div className="col-xs-1 ml-2 my-2">
-            //                     <a href="#" role="button" className="btn btn-primary btn-xs my-1">7</a>
-            //                     <input className="form-control" id="ex1" type="text" size="1"/>
-            //                     </div>
-
-            //                     <div className="col-xs-1 ml-2 my-2">
-            //                     <a href="#" role="button" className="btn btn-primary btn-xs my-1">8</a>
-            //                     <input className="form-control" id="ex1" type="text" size="1"/>
-            //                   </div>
-                              
-            //                   <div className="col-xs-1 ml-2 my-2">
-            //                   <a href="#" role="button" className="btn btn-primary btn-xs my-1">9</a>
-            //                     <input className="form-control" id="ex1" type="text" size="1"/>
-            //                     </div>
-
-            //                     <div className="col-xs-1 ml-2 my-2">
-            //                     <a href="#" role="button" className="btn btn-primary btn-xs my-1">10</a>
-            //                     <input className="form-control" id="ex1" type="text" size="1"/>
-            //                   </div>
-                              
-            //                 </div>
-            //                 </form>
-            //                 </div>
-                            
-            //         <div className="modal-body mx-3">
-            //         <div className="container">
-            //                 <div className="row">
-            //                 <div className="col-lg-6 col-sm-6 col-xs-6">
-            //                         <div className="md-form mb-4">
-            //                         <label data-error="wrong" data-success="right" for="defaultForm-email">Total Amount</label>
-            //                             <input type="number" id="defaultForm-email" className="form-control validate" placeholder="Amount"/>
-                                        
-            //                         </div>
-            //                         </div>
-                                    
-            //                     <div className="col-lg-6 col-sm-6 col-xs-6">
-            //                     <div className="md-form mb-4">
-            //                             <label data-error="wrong" data-success="right" for="defaultForm-email">Draw no.</label>
-            //                             <input type="text" id="defaultForm-email" className="form-control validate" placeholder="draw no."/>
-                        
-            //                         </div>
-            //                     </div>
-            //                     </div>
-                        
-            //                     <div className="row">
-            //                     <div className="col-lg-6 col-sm-6 col-xs-6">
-            //                         <div className="md-form mb-4">
-            //                         <label data-error="wrong" data-success="right" for="defaultForm-email">Agent Name</label>
-            //                             <input type="text" id="defaultForm-email" className="form-control validate" placeholder="Agent Name"/>
-                        
-            //                         </div>
-            //                         </div>
-                        
-            //                         <div className="col-lg-6 col-sm-6 col-xs-6">
-            //                         <div className="md-form mb-4">
-            //                         <label data-error="wrong" data-success="right" for="defaultForm-email">Agent ID</label>
-            //                         <input type="text" id="defaultForm-email" className="form-control validate" placeholder="Agent ID"/>
-                        
-            //                         </div>
-            //                     </div>
-            //                     </div>
-                        
-            //                     <div className="row">
-            //                     <div className="col-lg-6 col-sm-6 col-xs-6">
-            //                     <div className="md-form mb-4">
-            //                     <label data-error="wrong" data-success="right" for="defaultForm-email">Date & Time</label>
-            //                     <input type="datetime-local" id="defaultForm-email" className="form-control validate" placeholder="Date & Time"/>
-                                
-            //                     </div>
-            //                     </div>
-                        
-            //                     <div className="col-lg-6 col-sm-6 col-xs-6">
-            //                     <div className="md-form mb-4">
-            //                     <label data-error="wrong" data-success="right" for="defaultForm-email">QR Code</label>
-            //                     <input type="text" id="defaultForm-email" className="form-control validate" placeholder="QR Code"/>
-                                
-            //                         </div>
-            //                         </div>
-            //                 </div>
-                        
-            //                 </div>
-                            
-            //                 </div>
-                        
-            //                 <div className="modal-footer d-flex justify-content-center">
-            //           <button type="submit" className="btn btn-md btn-success">Submit</button>
-            //           <button type="reset" className="btn btn-md btn-secondary">Reset</button>
-              
-            //         </div>
-            //       </div>
-            //     </div>
-            //   </div>
-        }
         </div>
         )
     }

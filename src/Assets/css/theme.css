@@ -690,7 +690,8 @@ form{
 }
 
 .navbar-sidebar .navbar__list li a:hover {
-    color: #4272d7;
+    /* color: #4272d7; */
+    color: white;
 }
 
 .navbar-sidebar .navbar__list li.active > a {
@@ -699,6 +700,9 @@ form{
 
 .has-sub {
     position: relative;
+}
+.has-sub:hover{
+    background-color: #333;
 }
 
 .header-mobile {

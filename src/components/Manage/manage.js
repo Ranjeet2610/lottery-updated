@@ -5,6 +5,7 @@ import WebHeader from '../Common/WebHeader';
 import ManageLottery from './ManageLottery';
 import ManageCricket from './ManageCricket'
 import AdminPage from './adminPage';
+import { POST } from '../../Services/Api';
 
 export default class manage extends Component {
     constructor(){
@@ -13,7 +14,21 @@ export default class manage extends Component {
             AdminPage:false,
             Manage_Lottery:false,
             Manage_Cricket:false,
+            manageLotteryData:[],
         }
+    }
+
+    componentDidMount(){
+        POST("getTicketsByAdmin")
+        .then(res=>{
+            this.setState({
+                manageLotteryData:res.data
+            })
+            // console.log("lottery",res.data)
+        })
+        .catch(error=>{
+            console.log(error)
+        })
     }
 
     manageToggle = (id) =>{
@@ -51,7 +66,7 @@ export default class manage extends Component {
                         <div className="main-content">
                             {(this.state.Manage_Cricket===false && this.state.Manage_Lottery === false && this.state.AdminPage===false) ? <AdminPage/> : null}
                             {   this.state.AdminPage ? <AdminPage/> : null }
-                            {   this.state.Manage_Lottery ? <ManageLottery/> : null }
+                            {   this.state.Manage_Lottery ? <ManageLottery lottery={this.state.manageLotteryData}/> : null }
                             {   this.state.Manage_Cricket ? <ManageCricket/> : null }
                         </div>
                     </div>

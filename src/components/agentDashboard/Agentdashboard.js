@@ -4,6 +4,7 @@ import Lottery from '../agentDashboard/Lottery'
 import AgentNavbar from '../agentDashboard/AgentNavbar'
 import MobHeader from '../Common/MobHeader';
 import WebHeader from '../Common/WebHeader';
+import { POST } from '../../Services/Api';
 
 export default class Agentdashboard extends Component {
     constructor(){
@@ -11,7 +12,25 @@ export default class Agentdashboard extends Component {
         this.state = {
             lottery:true,
             cricket:false,
+            ticketList:[]
         }
+    }
+
+    componentDidMount(){
+        var userName1 = localStorage.getItem("user.data.userName")
+        const obj={
+            agentId:userName1
+        }
+        POST("getTicketsByuser",obj)
+        .then(res=>{
+            this.setState({
+                ticketList:res
+            })
+            console.log("sg",this.state.ticketList)
+        })
+        .catch(error=>{
+            console.log(error)
+        })
     }
 
     manageToggle = (id) =>{
@@ -43,7 +62,7 @@ export default class Agentdashboard extends Component {
                     <div className="page-container">
                         <WebHeader/>
                         <div className="main-content">                   
-                            {   this.state.cricket===false ? <Lottery/> : null }
+                            {   this.state.cricket===false ? <Lottery lotteryTicketData={this.state.ticketList} /> : null }
                             {   this.state.cricket ? <Cricket/> : null }
                         </div>
                     </div>
