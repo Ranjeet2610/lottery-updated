@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
 import Modal from 'react-bootstrap/Modal'
-import { POST, GET } from "../../Services/Api";
+import { POST} from "../../Services/Api";
 
 export default class Lottery extends Component {
     constructor(props){
@@ -24,8 +24,29 @@ export default class Lottery extends Component {
             ten:0,
             agentName:'',
             agentID:'',
-            lottery:this.props.lotteryTicketData
+            ticketList:[],
+            totalAmount:0,
           }
+    }
+
+    componentDidMount(){
+        var userName1 = JSON.parse(localStorage.getItem('user'))
+        this.setState({
+            agentId:userName1.data.userName,
+            agentName:userName1.data.Name
+        })
+        const obj={
+            agentId:userName1.data.userName
+        }
+        POST("getTicketsByuser",obj)
+        .then(res=>{
+            this.setState({
+                ticketList:res.data.Data
+            })
+        })
+        .catch(error=>{
+            console.log(error)
+        })
     }
 
     handleShow = () => {
@@ -51,13 +72,15 @@ export default class Lottery extends Component {
 
     handleChange = (event) => {
         this.setState({
-            [event.target.name]:event.target.value
+            [event.target.name]:parseInt(event.target.value)
         })   
     }
 
     handleSubmit = () => {
-        let totalAmount=parseInt(this.state.one)+parseInt(this.state.two)+parseInt(this.state.three)+parseInt(this.state.four)+parseInt(this.state.five)+parseInt(this.state.six)+parseInt(this.state.seven)+parseInt(this.state.eight)+parseInt(this.state.nine)+parseInt(this.state.ten)
-        const obj = {
+        this.setState({
+            totalAmount:this.state.one+this.state.two+this.state.three+this.state.four+this.state.five+this.state.six+this.state.seven+this.state.eight+this.state.nine+this.state.ten
+        })
+            const obj = {
             one:this.state.one,
             two:this.state.two,
             three:this.state.three,
@@ -70,7 +93,7 @@ export default class Lottery extends Component {
             ten:this.state.ten,
             agentName:this.state.agentName,
             agentId:this.state.agentID,
-            totalAmount:totalAmount
+            totalAmount:this.state.totalAmount
         }
         POST("generateTicket",obj,{headerStatus:true})
         .then(res=>{
@@ -79,13 +102,15 @@ export default class Lottery extends Component {
         .catch(error=>{
             console.log(error)
         })
+        window.location.reload();
+        this.handleClose();
     }
 
     render() {
-        console.log("kgh",this.props)
+        console.log(this.state.ticketList)
+        let i=0;
         return (
             <div>
-
             <Modal show={this.state.show} onHide={this.handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title style={{paddingLeft:'155px'}}><span style={{fontSize:'25px',fontFamily:'sans-serif'}}>Create Ticket</span></Modal.Title>
@@ -149,30 +174,25 @@ export default class Lottery extends Component {
                     <div className="modal-body mx-3">
                         <div className="container">
                             <div className="row">
-                                
-                            {
-                                // <div className="col-lg-6 col-sm-6 col-xs-6">
-                                //     <div className="md-form mb-4">
-                                //         <label data-error="wrong" data-success="right" for="defaultForm-email" style={{color:'black'}}>Total Amount</label>
-                                //         <input type="number" id="defaultForm-email" className="form-control validate" placeholder="Amount"/>
+                                <div className="col-lg-6 col-sm-6 col-xs-6">
+                                    <div className="md-form mb-4">
+                                        <label data-error="wrong" data-success="right" for="defaultForm-email" style={{color:'black'}}>Total Amount</label>
+                                        <input type="text" disabled id="defaultForm-email" className="form-control validate" value={this.state.totalAmount}/>
                         
-                                //     </div>
-                                // </div>
-                            }
-
+                                    </div>
+                                </div>
                                 <div className="col-lg-6 col-sm-6 col-xs-6">
                                     <div className="md-form mb-4">
                                         <label data-error="wrong" data-success="right" for="defaultForm-email" style={{color:'black'}}>Agent Name</label>
-                                        <input name="agentName" onChange={this.handleChange} type="text" id="defaultForm-email" className="form-control validate" placeholder="Agent Name"/>
+                                        <input name="agentName" disabled onChange={this.handleChange} type="text" id="defaultForm-email" className="form-control validate" placeholder={this.state.agentName}/>
                                     </div>
                                 </div>
                             </div>
-                        
                             <div className="row">
                                 <div className="col-lg-6 col-sm-6 col-xs-6">
                                     <div className="md-form mb-4">
                                         <label data-error="wrong" data-success="right" for="defaultForm-email" style={{color:'black'}}>Agent ID</label>
-                                        <input name="agentID" onChange={this.handleChange} type="text" id="defaultForm-email" className="form-control validate" placeholder="Agent ID"/>
+                                        <input name="agentID" disabled onChange={this.handleChange} type="text" id="defaultForm-email" className="form-control validate" placeholder={this.state.agentId}/>
                                     </div>
                                 </div>
                             </div>                  
@@ -207,36 +227,28 @@ export default class Lottery extends Component {
                                                     <th>print</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td className="align-middle">1 <input type="checkbox"/>
-                                                </td>
-                                                <td className="align-middle">2018-09</td>
-                                                <td className="align-middle">100398</td>
-                                                <td className="align-middle">iPhone X</td>
-                                                <td className="align-middle">2018-09</td>
-                                                <td className="align-middle">
-                                                    <div>
-                                                        <a className="btn btn-success mr-1" href="#" role="button" style={{width: "100px"}}>print</a> 
-                                                        <a className="btn btn-primary btn-one ml-1" href="#" role="button" style={{width: "100px"}}>share</a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                                
-                                            <tr>
-                                                <td className="align-middle">2 <input type="checkbox"/></td>
-                                                <td className="align-middle">2018-09</td>
-                                                <td className="align-middle">100398</td>
-                                                <td className="align-middle">iPhone X</td>
-                                                <td className="align-middle">2018-09</td>
-                                                <td className="align-middle">
-                                                    <div>
-                                                        <a className="btn btn-success mr-1" href="#" role="button" style={{width: "100px"}}>print</a>
-                                                        <a className="btn btn-primary btn-one ml-1" href="#" role="button" style={{width: "100px"}}>share</a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
+                                        {
+                                            this.state.ticketList.map(ele=>{
+                                                i+=1
+                                                return (
+                                                <tbody>
+                                                    <tr>
+                                                        <td className="align-middle">{i}</td>
+                                                        <td className="align-middle">{ele.agentId}</td>
+                                                        <td className="align-middle">{ele.totalAmount}</td>
+                                                        <td className="align-middle">iPhone X</td>
+                                                        <td className="align-middle">{ele.createdAt}</td>
+                                                        <td className="align-middle">
+                                                            <div>
+                                                                <a className="btn btn-success mr-1" href="#" role="button" style={{width: "100px"}}>print</a> 
+                                                                <a className="btn btn-primary btn-one ml-1" href="#" role="button" style={{width: "100px"}}>share</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                )
+                                            })
+                                        }   
                                     </table>
                                 </div>
                             </div>                            

@@ -24,7 +24,7 @@ export default class adminPage extends Component {
       arr: ["User Balance", "name New Free Chips"],
       backColor: "",
       freeChips: "",
-      chipFlag: false,
+      chipFlag: '',
     };
   }
 
@@ -54,11 +54,12 @@ export default class adminPage extends Component {
     if (modalForm === "Deposit")
       this.setState({
         depositModal: true,
+        chipFlag: 'Deposit',
       });
     if (modalForm === "Withdrawl")
       this.setState({
         depositModal: true,
-        chipFlag: true,
+        chipFlag: 'Withdrawl',
       });
   };
 
@@ -75,17 +76,19 @@ export default class adminPage extends Component {
     }
   };
 
-  handleViewMore = async (index, id) => {
+  handleViewMore = async (ied) => {
     await this.setState({
-      id: index,
+      id: ied,
     });
     if (this.state.viewMore === "none") {
       this.setState({
         viewMore: "block",
+        backColor:'green'
       });
     } else {
       this.setState({
         viewMore: "none",
+        backColor:''
       });
     }
   };
@@ -125,7 +128,8 @@ export default class adminPage extends Component {
     };
     POST("createAccount", obj, { headerStatus: true })
       .then((res) => {
-        this.getAgentList().catch((error) => {
+        this.getAgentList()
+        .catch((error) => {
           console.log(error);
         });
       })
@@ -140,7 +144,7 @@ export default class adminPage extends Component {
       userid: id,
       fillAmount: parseInt(this.state.freeChips),
     };
-    if (flag) {
+    if (flag==="Withdrawl") {
       POST("debitAmountByAdmin", obj, { headerStatus: true })
         .then((res) => {
           // this.setState({
@@ -163,12 +167,13 @@ export default class adminPage extends Component {
           console.log(error);
         });
     }
-    window.location.reload();
+    // window.location.reload();
     this.handleClose("Deposit");
   };
 
   render() {
     let i = 0;
+    let color;
     return (
         <div className="main-content">
             <div className="section__content section__content--p30">
@@ -226,20 +231,20 @@ export default class adminPage extends Component {
                                                         </td>
                                                         <td className="align-middle">
                                                             <div className="dropdown">
-                                                                <button style={{backgroundColor: this.state.backColor}}
+                                                                <button style={(this.state.id === index) ? {backgroundColor:this.state.backColor}: null}
                                                                     className="btn btn-primary btn-sm dropdown-toggle button-one"
                                                                     type="button"
                                                                     data-toggle="dropdown"
                                                                     aria-haspopup="true"
                                                                     aria-expanded="false"
                                                                     onClick={() => {
-                                                                        this.handleViewMore(ele.id);
+                                                                        this.handleViewMore(index);
                                                                     }}
                                                                 >
                                                                     View More
                                                                 </button>
                                                                 {
-                                                                    this.state.id === ele.id ? 
+                                                                    this.state.id === index ? 
                                                                     <ul className="dropdown-menu" style={{ display: this.state.viewMore }} >
                                                                         <li>
                                                                             <Link onClick={() => { this.handleShow("Deposit") }}>
@@ -367,13 +372,13 @@ export default class adminPage extends Component {
 
             <Modal show={this.state.depositModal} onHide={() => {this.handleClose("Deposit") }} >
                 <Modal.Header closeButton>
-                    <Modal.Title className="">FreeChip</Modal.Title>
+                    <Modal.Title className="">{`Free Chip ${this.state.chipFlag}`}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div>
                         <label className=""> 
                             Free Chips: 
-                            <input className="form-control border" name="freeChips" onChange={this.handleChange} />
+                            <input className="form-control w-100" name="freeChips" onChange={this.handleChange} />
                         </label>
                     </div>
                 </Modal.Body>
