@@ -131,7 +131,7 @@ export default class adminPage extends Component {
       .catch((error) => {
         console.log(error);
       });
-    this.handleClose();
+    this.handleClose("AddAgent");
   };
 
   handleUpdateChip = (id, flag) => {
@@ -142,7 +142,10 @@ export default class adminPage extends Component {
     if (flag) {
       POST("debitAmountByAdmin", obj, { headerStatus: true })
         .then((res) => {
-          console.log("rezda", res);
+          // this.setState({
+          //   agentInfo:
+          // })
+          console.log(res)
         })
         .catch((error) => {
           console.log(error);
@@ -156,6 +159,7 @@ export default class adminPage extends Component {
           console.log(error);
         });
     }
+    this.handleClose("Deposit");
   };
 
   render() {
@@ -316,17 +320,19 @@ export default class adminPage extends Component {
                                 </div>
                             </div>
 
-                            <div className="col-lg-6 col-sm-6 col-xs-6">
-                                <div className="md-form mb-4">
-                                    <label data-error="wrong" data-success="right" for="defaultForm-email" style={{ color: "black" }} >
-                                        Date
-                                    </label>
-                                    <input onChange={this.handleChange} type="date" id="defaultForm-email" name="Date" className="form-control validate" placeholder="Date" />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-lg-6 col-sm-6 col-xs-6">
+                            {
+                            //   <div className="col-lg-6 col-sm-6 col-xs-6">
+                            //     <div className="md-form mb-4">
+                            //         <label data-error="wrong" data-success="right" for="defaultForm-email" style={{ color: "black" }} >
+                            //             Date
+                            //         </label>
+                            //         <input onChange={this.handleChange} type="date" id="defaultForm-email" name="Date" className="form-control validate" placeholder="Date" />
+                            //     </div>
+                            // </div>
+                            
+                        // <div className="row">
+                      }
+                        <div className="col-lg-6 col-sm-6 col-xs-6">
                                 <div className="md-form mb-4">
                                     <label data-error="wrong" data-success="right" for="defaultForm-email" style={{ color: "black" }} >
                                         Password
@@ -335,7 +341,10 @@ export default class adminPage extends Component {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                      </div>
+                   { 
+                     //</div>
+                  }
                 </Modal.Body>
                 <Modal.Footer style={{ justifyContent: "center" }}>
                     <button className="btn btn-md btn-success" onClick={this.handleAddUser} >

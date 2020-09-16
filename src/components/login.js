@@ -27,7 +27,6 @@ export default class login extends Component {
         }
         POST("login",obj)
         .then(res=>{
-            console.log(res)
             if (res.data.success) {  
                 this.setState({
                     loggedIn:res.data.token
@@ -35,9 +34,12 @@ export default class login extends Component {
                 localStorage.setItem("token",res.data.token);
                 localStorage.setItem("user",JSON.stringify(res.data));
                 let token = localStorage.getItem("token");
-                if(token){
-                    return this.props.history.push("/admin")
-                }       
+                if(token && res.data.data.userType===1){
+                    this.props.history.push("/admin")
+                }  
+                else if(token && res.data.data.userType===2){
+                    this.props.history.push("/agentdashboard")
+                }     
             }
             else{
                 this.setState({
@@ -67,7 +69,7 @@ export default class login extends Component {
                                         <div className="login-form">
                                             <form>
                                                 <div className="form-group">
-                                                    <label for="exampleInputEmail1">Email address</label>
+                                                    <label for="exampleInputEmail1">User Name</label>
                                                     <input type="text" name="email" onChange={this.handleOnChange} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" />
                                                 </div>
                 
