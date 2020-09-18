@@ -5,7 +5,7 @@ import Forget_password from './components/forgetpassword';
 import manage from './components/Manage/manage';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import AgentDashboard from './components/agentDashboard/Agentdashboard'
-// import CreateTicket from './components/agentDashboard/createTicket'
+import TicketHistory from './components/Manage/ticketHistory'
 
 class App extends Component {
   render() {
@@ -18,9 +18,7 @@ class App extends Component {
                 <Route path ="/forgetpassword" component={Forget_password}/>
                 <Route path ="/admin" component={manage}/>
                 <Route path ="/agentdashboard" component={AgentDashboard}/>
-                {
-                  // <Route path ="/createticket" component={CreateTicket}/>
-                }
+                <Route path ="/ticketHistory" component={TicketHistory}/>
         </Switch>
       </Router>
     );

@@ -91,21 +91,14 @@ export default class MobHeader extends Component {
                         <div className="container-fluid">
                             <div className="navbar-mobile__list list-unstyled">
         
-                            {
-                                // <li className="has-sub">
-                                //     <Link className="js-arrow">
-                                //         <i className="fas fa-users"></i>Agents List</Link>
-                                    //     <div className="list-unstyled navbar__sub-list js-sub-list">
-                                    //     <!-- <li>
-                                    //         <Link href="#">Agents</Link>
-                                    //     </li> -->
-                                    //     <!-- <li>
-                                    //         <Link href="#">Users</Link>
-                                    //     </li> -->
-        
-                                    // </div>
-                                    // </li>
-                                }
+                    
+                                <li className="has-sub">
+                                    <Link className="js-arrow">
+                                        <i className="fas fa-users"/>
+                                        Agents List
+                                    </Link>
+                                </li>
+                 
 
                                 <li>
                                     <Link onClick={() => {this.props.manageToggle("Manage_Lottery")}}>

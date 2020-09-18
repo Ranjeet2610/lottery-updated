@@ -71,9 +71,11 @@ export default class Lottery extends Component {
     }
 
     handleChange = (event) => {
+        const subtotal = this.state.totalAmount;
         this.setState({
-            [event.target.name]:parseInt(event.target.value)
-        })   
+            [event.target.name]:parseInt(event.target.value),
+            totalAmount:(subtotal+parseInt(event.target.value))
+        }) 
     }
 
     handleSubmit = () => {

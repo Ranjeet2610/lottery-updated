@@ -4,7 +4,7 @@ import Lottery from '../agentDashboard/Lottery'
 import AgentNavbar from '../agentDashboard/AgentNavbar'
 import MobHeader from '../Common/MobHeader';
 import WebHeader from '../Common/WebHeader';
-import { POST } from '../../Services/Api';
+// import { POST } from '../../Services/Api';
 
 export default class Agentdashboard extends Component {
     constructor(){

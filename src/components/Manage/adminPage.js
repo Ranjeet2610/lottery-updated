@@ -24,7 +24,9 @@ export default class adminPage extends Component {
       arr: ["User Balance", "name New Free Chips"],
       backColor: "",
       freeChips: "",
-      chipFlag: '',
+      chipFlag: false,
+      indx:'',
+      ticketHistoryData:[],
     };
   }
 
@@ -46,7 +48,7 @@ export default class adminPage extends Component {
       })
   };
 
-  handleShow = (modalForm) => {
+  handleShow = (modalForm,userId,wallet) => {
     if (modalForm === "AddAgent")
       this.setState({
         agentModal: true,
@@ -54,12 +56,15 @@ export default class adminPage extends Component {
     if (modalForm === "Deposit")
       this.setState({
         depositModal: true,
-        chipFlag: 'Deposit',
+        id:userId,
+        updatedChips:wallet
       });
     if (modalForm === "Withdrawl")
       this.setState({
         depositModal: true,
-        chipFlag: 'Withdrawl',
+        chipFlag: true,
+        id:userId,
+        updatedChips:wallet
       });
   };
 
@@ -76,9 +81,9 @@ export default class adminPage extends Component {
     }
   };
 
-  handleViewMore = async (ied) => {
+  handleViewMore = async (index) => {
     await this.setState({
-      id: ied,
+      indx: index,
     });
     if (this.state.viewMore === "none") {
       this.setState({
@@ -129,9 +134,9 @@ export default class adminPage extends Component {
     POST("createAccount", obj, { headerStatus: true })
       .then((res) => {
         this.getAgentList()
-        .catch((error) => {
-          console.log(error);
-        });
+        // .catch((error) => {
+        //   console.log(error);
+        // });
       })
       .catch((error) => {
         console.log(error);
@@ -143,13 +148,13 @@ export default class adminPage extends Component {
     const obj = {
       userid: id,
       fillAmount: parseInt(this.state.freeChips),
-    };
-    if (flag==="Withdrawl") {
+    }
+    if (flag) {
       POST("debitAmountByAdmin", obj, { headerStatus: true })
         .then((res) => {
-          // this.setState({
-          //   agentInfo:
-          // })
+          this.setState({
+            agentInfo:res
+          })
           console.log("debitAmountByAdmin",res)
         })
         .catch((error) => {
@@ -167,13 +172,17 @@ export default class adminPage extends Component {
           console.log(error);
         });
     }
-    // window.location.reload();
+    window.location.reload();
     this.handleClose("Deposit");
   };
 
+  handleTicketHistory = (agName) => {
+    this.props.manageToggle(agName)
+  }
+
+
   render() {
     let i = 0;
-    let color;
     return (
         <div className="main-content">
             <div className="section__content section__content--p30">
@@ -192,6 +201,7 @@ export default class adminPage extends Component {
                                 <i className="fas fa-plus mr-2" />
                                 ADD AGENT
                             </button>
+
                             <div className="table-responsive m-b-30">
                                 <table className="table table-bordered table-striped table-earning table-hover">
                                     <thead>
@@ -231,7 +241,7 @@ export default class adminPage extends Component {
                                                         </td>
                                                         <td className="align-middle">
                                                             <div className="dropdown">
-                                                                <button style={(this.state.id === index) ? {backgroundColor:this.state.backColor}: null}
+                                                                <button style={(this.state.indx === index) ? {backgroundColor:this.state.backColor}: null}
                                                                     className="btn btn-primary btn-sm dropdown-toggle button-one"
                                                                     type="button"
                                                                     data-toggle="dropdown"
@@ -244,20 +254,22 @@ export default class adminPage extends Component {
                                                                     View More
                                                                 </button>
                                                                 {
-                                                                    this.state.id === index ? 
+                                                                    this.state.indx === index ? 
                                                                     <ul className="dropdown-menu" style={{ display: this.state.viewMore }} >
                                                                         <li>
-                                                                            <Link onClick={() => { this.handleShow("Deposit") }}>
+                                                                            <Link onClick={() => { this.handleShow("Deposit",ele.id,ele.walletBalance) }}>
                                                                                 Free Chip Deposit
                                                                             </Link>
                                                                         </li>
                                                                         <li>
-                                                                            <Link onClick={() => { this.handleShow("Withdrawl"); }} >
+                                                                            <Link onClick={() => { this.handleShow("Withdrawl",ele.id,ele.walletBalance); }} >
                                                                                 Free Chip Withdrawal
                                                                             </Link>
                                                                         </li>
                                                                         <li>
-                                                                            <Link>Ticket History</Link>
+                                                                            <Link onClick={()=>this.handleTicketHistory(ele.userName)}>
+                                                                              Ticket History
+                                                                            </Link>
                                                                         </li>
                                                                     </ul> : null
                                                                 }
@@ -277,8 +289,8 @@ export default class adminPage extends Component {
                                     </div>
                                     </div>
                                 </div>
-
-                            </div>
+                          </div>
+                  
                         </div>
                     </div>
                 </div>
@@ -372,15 +384,23 @@ export default class adminPage extends Component {
 
             <Modal show={this.state.depositModal} onHide={() => {this.handleClose("Deposit") }} >
                 <Modal.Header closeButton>
-                    <Modal.Title className="">{`Free Chip ${this.state.chipFlag}`}</Modal.Title>
+                    <Modal.Title className="">Free Chip {this.state.chipFlag ? "Withdrawl" : "Deposit"}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                  <div className="row">
                     <div>
                         <label className=""> 
                             Free Chips: 
                             <input className="form-control w-100" name="freeChips" onChange={this.handleChange} />
                         </label>
                     </div>
+                    <div>
+                        <label className=""> 
+                            WalletBalance: 
+                            <input className="form-control w-100" disabled name="freeChips" onChange={this.handleChange} value={this.state.updatedChips} />
+                        </label>
+                    </div>
+                  </div>
                 </Modal.Body>
                 <Modal.Footer style={{ justifyContent: "center" }}>
                     <button className="btn btn-dark" onClick={() => {this.handleUpdateChip(this.state.id, this.state.chipFlag) }}>

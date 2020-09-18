@@ -9,19 +9,17 @@ export default class ManageLottery extends Component {
     }
 
     render() {
-        // console.log(this.state.lotteryData)
         let i=0;
         return (
-                <div class="section__content border section__content--p30 mt-5">
+                <div className="section__content border section__content--p30 mt-5">
                 <h1 className="ml-3 mb-4 border">Manage Lottery</h1>
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-lg-12">
-
-                                <div class="table-responsive table--no-card m-b-30">
-                                    <table class="table table-striped table-bordered table-earning table-hover">
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col-lg-12">
+                                <div className="table-responsive table--no-card m-b-30">
+                                    <table className="table table-striped table-bordered table-earning table-hover">
                                         <thead>
-                                            <tr class="text-center">
+                                            <tr className="text-center">
                                                 <th>S.No.</th>
                                                 <th>agent ID</th>
                                                 <th>agent name</th>
@@ -35,11 +33,11 @@ export default class ManageLottery extends Component {
                                                 return(
                                                 <tbody>
                                                     <tr>
-                                                        <td class="align-middle">{i}</td>
-                                                        <td class="align-middle">{ele.agentId}</td>
-                                                        <td class="align-middle">{ele.agentName}</td>
-                                                        <td class="align-middle">{ele._id}</td>
-                                                        <td class="align-middle">{ele.totalAmount}</td>
+                                                        <td className="align-middle">{i}</td>
+                                                        <td className="align-middle">{ele.agentId}</td>
+                                                        <td className="align-middle">{ele.agentName}</td>
+                                                        <td className="align-middle">{ele._id}</td>
+                                                        <td className="align-middle">{ele.totalAmount}</td>
                                                     </tr>
                                                 </tbody>
                                                 )
@@ -52,71 +50,71 @@ export default class ManageLottery extends Component {
             
                                             {
                                             //     <tr>
-                                            //     <td class="align-middle">2</td>
-                                            //     <td class="align-middle">2018-09</td>
-                                            //     <td class="align-middle">100398</td>
-                                            //     <td class="align-middle">iPhone X</td>
-                                            //     <td class="align-middle">2018</td>
+                                            //     <td className="align-middle">2</td>
+                                            //     <td className="align-middle">2018-09</td>
+                                            //     <td className="align-middle">100398</td>
+                                            //     <td className="align-middle">iPhone X</td>
+                                            //     <td className="align-middle">2018</td>
             
                                             // </tr>
             
             
                                             // <tr>
-                                            //     <td class="align-middle">3</td>
-                                            //     <td class="align-middle">2018-09</td>
-                                            //     <td class="align-middle">100398</td>
-                                            //     <td class="align-middle">iPhone X</td>
-                                            //     <td class="align-middle">2018</td>
+                                            //     <td className="align-middle">3</td>
+                                            //     <td className="align-middle">2018-09</td>
+                                            //     <td className="align-middle">100398</td>
+                                            //     <td className="align-middle">iPhone X</td>
+                                            //     <td className="align-middle">2018</td>
             
                                             // </tr>
             
             
                                             // <tr>
-                                            //     <td class="align-middle">4</td>
-                                            //     <td class="align-middle">2018-09</td>
-                                            //     <td class="align-middle">100398</td>
-                                            //     <td class="align-middle">iPhone X</td>
-                                            //     <td class="align-middle">2018</td>
+                                            //     <td className="align-middle">4</td>
+                                            //     <td className="align-middle">2018-09</td>
+                                            //     <td className="align-middle">100398</td>
+                                            //     <td className="align-middle">iPhone X</td>
+                                            //     <td className="align-middle">2018</td>
             
                                             // </tr>
             
             
                                             // <tr>
-                                            //     <td class="align-middle">5</td>
-                                            //     <td class="align-middle">2018-09</td>
-                                            //     <td class="align-middle">100398</td>
-                                            //     <td class="align-middle">iPhone X</td>
-                                            //     <td class="align-middle">2018</td>
+                                            //     <td className="align-middle">5</td>
+                                            //     <td className="align-middle">2018-09</td>
+                                            //     <td className="align-middle">100398</td>
+                                            //     <td className="align-middle">iPhone X</td>
+                                            //     <td className="align-middle">2018</td>
             
                                             // </tr>
             
             
                                             // <tr>
-                                            //     <td class="align-middle">6</td>
-                                            //     <td class="align-middle">2018-09</td>
-                                            //     <td class="align-middle">100398</td>
-                                            //     <td class="align-middle">iPhone X</td>
-                                            //     <td class="align-middle">2018</td>
+                                            //     <td className="align-middle">6</td>
+                                            //     <td className="align-middle">2018-09</td>
+                                            //     <td className="align-middle">100398</td>
+                                            //     <td className="align-middle">iPhone X</td>
+                                            //     <td className="align-middle">2018</td>
             
                                             // </tr>
             
             
                                             // <tr>
-                                            //     <td class="align-middle">7</td>
-                                            //     <td class="align-middle">2018-09</td>
-                                            //     <td class="align-middle">100398</td>
-                                            //     <td class="align-middle">iPhone X</td>
-                                            //     <td class="align-middle">2018</td>
+                                            //     <td className="align-middle">7</td>
+                                            //     <td className="align-middle">2018-09</td>
+                                            //     <td className="align-middle">100398</td>
+                                            //     <td className="align-middle">iPhone X</td>
+                                            //     <td className="align-middle">2018</td>
             
                                             // </tr>
             
             
                                             // <tr>
-                                            //     <td class="align-middle">8</td>
-                                            //     <td class="align-middle">2018-09</td>
-                                            //     <td class="align-middle">100398</td>
-                                            //     <td class="align-middle">iPhone X</td>
-                                            //     <td class="align-middle">2018</td>
+                                            //     <td className="align-middle">8</td>
+                                            //     <td className="align-middle">2018-09</td>
+                                            //     <td className="align-middle">100398</td>
+                                            //     <td className="align-middle">iPhone X</td>
+                                            //     <td className="align-middle">2018</td>
             
                                             // </tr>
                                         }
@@ -129,9 +127,9 @@ export default class ManageLottery extends Component {
                         </div>
 
 
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="copyright">
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className="copyright">
                                     <p>Copyright © 2020. All rights reserved.</p>
                                 </div>
                             </div>
