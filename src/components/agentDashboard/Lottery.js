@@ -26,6 +26,8 @@ export default class Lottery extends Component {
             agentID:'',
             ticketList:[],
             totalAmount:0,
+            disable:true,
+            brr:[1,2,3,4,5,6,7,8,9,10]
           }
     }
 
@@ -61,14 +63,14 @@ export default class Lottery extends Component {
         })
     }
 
-    handleButton = (e) =>{
-        let id = e.target.name;
-        const {arr } = this.state
-        arr[id]=false
-        this.setState({
-            arr
-        })
-    }
+    // handleButton = (e) =>{
+    //     let id = e.target.name;
+    //     const {arr } = this.state
+    //     arr[id]=false
+    //     this.setState({
+    //         arr
+    //     })
+    // }
 
     handleChange = (event) => {
         const subtotal = this.state.totalAmount;
@@ -108,6 +110,10 @@ export default class Lottery extends Component {
         this.handleClose();
     }
 
+    handleButton = () => {
+
+    }
+
     render() {
         console.log(this.state.ticketList)
         let i=0;
@@ -115,62 +121,80 @@ export default class Lottery extends Component {
             <div>
             <Modal show={this.state.show} onHide={this.handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title style={{paddingLeft:'155px'}}><span style={{fontSize:'25px',fontFamily:'sans-serif'}}>Create Ticket</span></Modal.Title>
+                    <Modal.Title style={{paddingLeft:'155px'}}>
+                        <span style={{fontSize:'25px',fontFamily:'sans-serif'}}>
+                            Create Ticket
+                        </span>
+                    </Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
                     <h4 className="pt-3" style={{color:'black'}}>Numbers</h4>
                     
                     <div className="form-group row mx-1">
-                        <div className="col-xs-1 ml-2 my-2">
-                            <Link name="0" style={{color :'white'}} onClick={this.handleButton} className="btn btn-primary btn-lg my-1 ml-3 focus">1</Link>
-                            <input name="one" onChange={this.handleChange} disabled={this.state.arr[0]} className="form-control" id="ex1" type="text" size="2"/>
-                        </div>
+                        {
+                            this.state.brr.map((item,index)=>{
+                                return(
+                                <div className="col-xs-1 ml-2 my-2">
+                                    <button name={index} style={{color :'white'}} onClick={this.handleButton} className="btn btn-primary btn-lg my-1 ml-3 focus">{item}</button>
+                                    <input name={index} onChange={this.handleChange} disabled={this.state.disable} className="form-control" id="ex1" type="text" size="2"/>
+                                </div> 
+                                )
+                            })
+                        }
+                    
+                    
+                    {
+                            // <div className="col-xs-1 ml-2 my-2">
+                        //     <Link name="0" style={{color :'white'}} onClick={this.handleButton} className="btn btn-primary btn-lg my-1 ml-3 focus">1</Link>
+                        //     <input name="one" onChange={this.handleChange} disabled={this.state.arr[0]} className="form-control" id="ex1" type="text" size="2"/>
+                        // </div>
 
-                        <div className="col-xs-1 ml-2 my-2">
-                            <Link name="1" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-3 focus">2</Link>
-                            <input name="two" onChange={this.handleChange} disabled={this.state.arr[1]} className="form-control" id="ex1" type="text" size="2"/>
-                        </div>
+                        // <div className="col-xs-1 ml-2 my-2">
+                        //     <Link name="1" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-3 focus">2</Link>
+                        //     <input name="two" onChange={this.handleChange} disabled={this.state.arr[1]} className="form-control" id="ex1" type="text" size="2"/>
+                        // </div>
 
-                        <div className="col-xs-1 ml-2 my-2">
-                            <Link name="2" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-3 focus">3</Link>
-                            <input name="three" onChange={this.handleChange} disabled={this.state.arr[2]} className="form-control" id="ex1" type="text" size="2"/>
-                        </div>
+                        // <div className="col-xs-1 ml-2 my-2">
+                        //     <Link name="2" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-3 focus">3</Link>
+                        //     <input name="three" onChange={this.handleChange} disabled={this.state.arr[2]} className="form-control" id="ex1" type="text" size="2"/>
+                        // </div>
 
-                        <div className="col-xs-1 ml-2 my-2">
-                            <Link  name="3" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-3 focus">4</Link>
-                            <input name="four" onChange={this.handleChange} disabled={this.state.arr[3]} className="form-control" id="ex1" type="text" size="2"/>
-                        </div>
+                        // <div className="col-xs-1 ml-2 my-2">
+                        //     <Link  name="3" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-3 focus">4</Link>
+                        //     <input name="four" onChange={this.handleChange} disabled={this.state.arr[3]} className="form-control" id="ex1" type="text" size="2"/>
+                        // </div>
 
-                        <div className="col-xs-1 ml-2 my-2">
-                            <Link name="4" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-3 focus">5</Link>
-                            <input name="five" onChange={this.handleChange} disabled={this.state.arr[4]} className="form-control" id="ex1" type="text" size="2"/>
-                        </div>
+                        // <div className="col-xs-1 ml-2 my-2">
+                        //     <Link name="4" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-3 focus">5</Link>
+                        //     <input name="five" onChange={this.handleChange} disabled={this.state.arr[4]} className="form-control" id="ex1" type="text" size="2"/>
+                        // </div>
 
-                        <div className="col-xs-1 ml-2 my-2">
-                            <Link name="5" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-3 focus">6</Link>
-                            <input name="six" onChange={this.handleChange} disabled={this.state.arr[5]} className="form-control" id="ex1" type="text" size="2"/>
-                        </div>
+                        // <div className="col-xs-1 ml-2 my-2">
+                        //     <Link name="5" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-3 focus">6</Link>
+                        //     <input name="six" onChange={this.handleChange} disabled={this.state.arr[5]} className="form-control" id="ex1" type="text" size="2"/>
+                        // </div>
 
-                        <div className="col-xs-1 ml-2 my-2">
-                            <Link name="6" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-3 focus">7</Link>
-                            <input name="seven" onChange={this.handleChange} disabled={this.state.arr[6]} className="form-control" id="ex1" type="text" size="2"/>
-                        </div>
+                        // <div className="col-xs-1 ml-2 my-2">
+                        //     <Link name="6" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-3 focus">7</Link>
+                        //     <input name="seven" onChange={this.handleChange} disabled={this.state.arr[6]} className="form-control" id="ex1" type="text" size="2"/>
+                        // </div>
 
-                        <div className="col-xs-1 ml-2 my-2">
-                            <Link name="7" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-3 focus">8</Link>
-                            <input name="eight" onChange={this.handleChange} disabled={this.state.arr[7]} className="form-control" id="ex1" type="text" size="2"/>
-                        </div>
+                        // <div className="col-xs-1 ml-2 my-2">
+                        //     <Link name="7" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-3 focus">8</Link>
+                        //     <input name="eight" onChange={this.handleChange} disabled={this.state.arr[7]} className="form-control" id="ex1" type="text" size="2"/>
+                        // </div>
 
-                        <div className="col-xs-1 ml-2 my-2">
-                            <Link name="8" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-3 focus">9</Link>
-                            <input name="nine" onChange={this.handleChange} disabled={this.state.arr[8]} className="form-control" id="ex1" type="text" size="2"/>
-                        </div>
+                        // <div className="col-xs-1 ml-2 my-2">
+                        //     <Link name="8" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-3 focus">9</Link>
+                        //     <input name="nine" onChange={this.handleChange} disabled={this.state.arr[8]} className="form-control" id="ex1" type="text" size="2"/>
+                        // </div>
 
-                        <div className="col-xs-1 ml-2 my-2">
-                            <Link name="9" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-2 focus">10</Link>
-                            <input name="ten" onChange={this.handleChange} disabled={this.state.arr[9]} className="form-control" id="ex1" type="text" size="2"/>
-                        </div>
+                        // <div className="col-xs-1 ml-2 my-2">
+                        //     <Link name="9" role="button" onClick={this.handleButton} style={{color:'white'}} className="btn btn-primary btn-lg my-1 ml-2 focus">10</Link>
+                        //     <input name="ten" onChange={this.handleChange} disabled={this.state.arr[9]} className="form-control" id="ex1" type="text" size="2"/>
+                        // </div>
+                    }
                     </div>
                     
                     <div className="modal-body mx-3">

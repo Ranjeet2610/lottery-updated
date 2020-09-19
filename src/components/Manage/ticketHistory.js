@@ -2,24 +2,12 @@ import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
 
 export default class ticketHistory extends Component {
-    constructor(props){
-        super(props);
-        this.state={
-        list:[],
-        arr:[1,2,3,4,5,6,7,8,9,0]
-    }}
-
-    componentDidMount(){
-        this.setState({
-            list:this.props.value
-        })
-    }
-
     render() {
-        console.log("valuee",this.state.list)
+        const listdata = this.props.historyData;
         let i=0;
         return (
             <div className="main-content">
+                <button className="float-right mr-5 mb-2 btn btn-dark" oonClick={() => {this.props.manageToggle("false")}}>Back</button>
                 <div className="table-responsive table--no-card m-b-30">
                     <table className="table table-bordered table-striped table-earning">
                         <thead>
@@ -32,8 +20,8 @@ export default class ticketHistory extends Component {
                                 <th>print</th>
                             </tr>
                         </thead>
-                    {
-                        this.state.arr.map(ele=>{
+                    { 
+                        listdata.map((ele) =>{
                             i+=1
                             return(
                             <tbody>
@@ -53,6 +41,7 @@ export default class ticketHistory extends Component {
                             </tbody>
                             )
                         })
+                    
                     }
 
                     </table>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import './style-2.css'
-import Barcode from './bar-code2.jpg'
+import '../Assets/css/style-2.css'
+import Barcode from '../Assets/images/bar-code2.jpg'
 
 export default class Lottery extends Component {
     render() {
@@ -19,8 +19,8 @@ export default class Lottery extends Component {
                                 <small>Draw #23</small>
                             </div>
 
-                            <div class="col-lg-9 col-9">
-                                <p> <span style={{paddingRight: "20px"}}>**RECEIPT**</span> 27/08/2020 - 03:30 PM</p>
+                            <div class="col-lg-9 col-9 border">
+                                <p className="border text-center" style={{justifyContent:'center'}}> <span style={{paddingRight: "20px",border:"2px solid black"}}>**RECEIPT**</span> 27/08/2020 - 03:30 PM</p>
                             </div>
 
                         </div>

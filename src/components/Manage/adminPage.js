@@ -145,6 +145,7 @@ export default class adminPage extends Component {
   };
 
   handleUpdateChip = (id, flag) => {
+    debugger
     const obj = {
       userid: id,
       fillAmount: parseInt(this.state.freeChips),
@@ -160,7 +161,8 @@ export default class adminPage extends Component {
         .catch((error) => {
           console.log(error);
         });
-    } else {
+    } 
+    else {
       POST("creditAmountByAdmin", obj, { headerStatus: true })
         .then((res) => {
           this.setState({
@@ -172,7 +174,6 @@ export default class adminPage extends Component {
           console.log(error);
         });
     }
-    window.location.reload();
     this.handleClose("Deposit");
   };
 

@@ -42,8 +42,7 @@ export default class manage extends Component {
             this.setState({
                 ticketHistoryData:res.data.Data
             })
-            console.log("res",res.data.Data)
-            console.log("ticketHistoryData",this.state.ticketHistoryData)
+           // console.log("res",res.data.Data)
         })
         .catch(error=>{
             console.log(error)
@@ -51,6 +50,7 @@ export default class manage extends Component {
     }
 
     manageToggle = (id) =>{
+        debugger
         if(id === "Manage_Lottery"){
             this.setState({
                 AdminPage:false,
@@ -73,6 +73,11 @@ export default class manage extends Component {
                 ticketHistory:true,
             })
         }
+        else if(id==="false"){
+            this.setState({
+                ticketHistory:false
+            })
+        }
         else{
             this.setState({
                 AdminPage:!this.state.AdminPage,
@@ -85,6 +90,7 @@ export default class manage extends Component {
     }
 
     render() {
+        console.log("ticketHistoryData",this.state.ticketHistoryData)   
         return (
             <div className="animsition">
                 <div className="page-wrapper">
@@ -97,7 +103,7 @@ export default class manage extends Component {
                             {   this.state.AdminPage ? <AdminPage/> : null }
                             {   this.state.Manage_Lottery ? <ManageLottery lottery={this.state.manageLotteryData}/> : null }
                             {   this.state.Manage_Cricket ? <ManageCricket/> : null }
-                            {   this.state.ticketHistory ? <TicketHistory value={this.state.ticketHistoryData} /> : null }
+                            {   this.state.ticketHistory ? <TicketHistory historyData={this.state.ticketHistoryData} manageToggle={(id) => this.manageToggle(id)}></TicketHistory> : null }
                         </div>
                     </div>
                 </div>
