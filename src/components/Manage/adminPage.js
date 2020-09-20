@@ -1,8 +1,9 @@
 import React, { Component } from "react";
+// import DatePicker from 'react-datepicker';
 import Modal from "react-bootstrap/Modal";
 import { POST, GET } from "../../Services/Api";
 import { Link } from "react-router-dom";
-
+import 'react-datepicker/dist/react-datepicker.css'
 export default class adminPage extends Component {
   constructor(props) {
     super(props);
@@ -12,7 +13,6 @@ export default class adminPage extends Component {
       Name: "",
       userName: "",
       Commission: "",
-      Date: "",
       password: "",
       agentInfo: [],
       updatedChips:'',
@@ -21,12 +21,15 @@ export default class adminPage extends Component {
       viewCommission: "none",
       id: "",
       userLock: "",
-      arr: ["User Balance", "name New Free Chips"],
       backColor: "",
       freeChips: "",
       chipFlag: false,
       indx:'',
       ticketHistoryData:[],
+      winningNumber:'',
+      resultDate:new Date(),
+      resultSettlement:false,
+      brr:[1,2,3,4,5,6,7,8,9,10]
     };
   }
 
@@ -53,6 +56,10 @@ export default class adminPage extends Component {
       this.setState({
         agentModal: true,
       });
+    if (modalForm === "Result Settlement")
+      this.setState({
+        resultSettlement: true,
+      });
     if (modalForm === "Deposit")
       this.setState({
         depositModal: true,
@@ -74,6 +81,10 @@ export default class adminPage extends Component {
         agentModal: false,
       });
     }
+    if (modalForm === "Result Settlement")
+      this.setState({
+        resultSettlement: false,
+      });
     if (modalForm === "Deposit") {
       this.setState({
         depositModal: false,
@@ -134,9 +145,6 @@ export default class adminPage extends Component {
     POST("createAccount", obj, { headerStatus: true })
       .then((res) => {
         this.getAgentList()
-        // .catch((error) => {
-        //   console.log(error);
-        // });
       })
       .catch((error) => {
         console.log(error);
@@ -145,7 +153,6 @@ export default class adminPage extends Component {
   };
 
   handleUpdateChip = (id, flag) => {
-    debugger
     const obj = {
       userid: id,
       fillAmount: parseInt(this.state.freeChips),
@@ -153,10 +160,10 @@ export default class adminPage extends Component {
     if (flag) {
       POST("debitAmountByAdmin", obj, { headerStatus: true })
         .then((res) => {
+          this.getAgentList()
           this.setState({
-            agentInfo:res
+            updatedChips:res.data.Data.walletBalance
           })
-          console.log("debitAmountByAdmin",res)
         })
         .catch((error) => {
           console.log(error);
@@ -164,11 +171,11 @@ export default class adminPage extends Component {
     } 
     else {
       POST("creditAmountByAdmin", obj, { headerStatus: true })
-        .then((res) => {
-          this.setState({
-            updatedChips:res.data.Data.walletBalance
-          })
-          console.log("creditAmountByAdmin ",this.state.updatedChips);
+      .then((res) => {
+        this.setState({
+          updatedChips:res.data.Data.walletBalance
+        })
+        this.getAgentList()
         })
         .catch((error) => {
           console.log(error);
@@ -181,9 +188,14 @@ export default class adminPage extends Component {
     this.props.manageToggle(agName)
   }
 
+  handleDatepicker = (paramdate) => {
+    this.setState({
+      resultDate:paramdate
+    })
+  }
+
 
   render() {
-    let i = 0;
     return (
         <div className="main-content">
             <div className="section__content section__content--p30">
@@ -203,6 +215,36 @@ export default class adminPage extends Component {
                                 ADD AGENT
                             </button>
 
+                            <button 
+                              className="btn btn-admin btn-success float-right mb-4 mr-2" 
+                              onClick={() => this.handleShow("Result Settlement")}>
+                              <i className="fas fa-poll mr-2" />
+                                Result Settlement
+                            </button>
+
+                            
+                            
+                            {
+                              // <span className="mr-2">Result Date:</span>                
+                              // <DatePicker selected={this.state.resultDate} onChange={(date)=>this.handleDatepicker(date)}/><br/>
+                            }
+                              <div className="my-2">
+                                  <span className="mr-2">Winning no:</span>
+                                  <select 
+                                    name='winningNumber' 
+                                    className="p-1" 
+                                    style={{borderRadius:'7px',outline:'none'}} 
+                                    onChange={this.handleChange}
+                                  >
+                                    {
+                                      this.state.brr.map(i=><option>{i}</option>)
+                                    }
+                                  </select>
+                                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                  <button className="btn btn-info">Submit</button>
+                              </div>
+                          
+
                             <div className="table-responsive m-b-30">
                                 <table className="table table-bordered table-striped table-earning table-hover">
                                     <thead>
@@ -215,14 +257,16 @@ export default class adminPage extends Component {
                                         <th>View More</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
                                         {
-                                            this.state.agentInfo?.map((ele, index) => {
-                                                i += 1;
+                                          (this.state.agentInfo.length < 0) ? <div className="justify-content-center">Empty !</div> :
+                                            (this.state.agentInfo.map((ele, index) => {
+                                               
                                                 return (
+                                                  <tbody>
+
                                                     <tr>
                                                         <td className="align-middle">
-                                                        {i}&nbsp;
+                                                        {index+1}&nbsp;
                                                         <input
                                                             type="checkbox"
                                                             onClick={() => {
@@ -276,11 +320,12 @@ export default class adminPage extends Component {
                                                                 }
                                                             </div>
                                                         </td>
-                                                    </tr>
+                                                        </tr>
+                                                      </tbody>
                                                 )}
-                                            )
+                                            ))
+                                            
                                         }
-                                    </tbody>
                                 </table>
 
                                 <div className="row">
@@ -296,6 +341,32 @@ export default class adminPage extends Component {
                     </div>
                 </div>
             </div>
+
+            {
+              // Modal for Result SettleMent
+            }
+            <Modal show={this.state.resultSettlement} onHide={()=>this.handleClose("Result Settlement")}>
+                              <Modal.Header closeButton>
+                                <Modal.Title>Result Settlement</Modal.Title>
+                              </Modal.Header>
+                              <Modal.Body>
+
+                              
+                              
+                              <span className="mr-2">Winning no:</span>
+                              <select name='winningNumber' className="p-1" style={{borderRadius:'7px',outline:'none'}} onChange={this.handleChange}>
+                                {
+                                  this.state.brr.map(i=><option>{i}</option>)
+                                }
+                              </select>
+                             
+                       
+                      
+                              </Modal.Body>
+                              <Modal.Footer className="justify-content-center">
+                              <button className="btn btn-info">Submit</button>
+                              </Modal.Footer>
+                            </Modal>
 
             {
             // Modal for ADD AGENT

@@ -19,13 +19,13 @@ export default class Agentdashboard extends Component {
         if(id === "lottery"){
             this.setState({
                 cricket:false,
-                lottery:!this.state.lottery
+                lottery:true
             })
         }
         else if(id === "cricket"){
             this.setState({
                 lottery:false,
-                cricket:!this.state.cricket
+                cricket:true
             })
         }
     }
