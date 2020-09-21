@@ -23,7 +23,7 @@ export default class Lottery extends Component {
             nine:0,
             ten:0,
             agentName:'',
-            agentID:'',
+            agentId:'',
             ticketList:[],
             totalAmount:0,
             disable:true,
@@ -96,7 +96,7 @@ export default class Lottery extends Component {
             nine:this.state.nine,
             ten:this.state.ten,
             agentName:this.state.agentName,
-            agentId:this.state.agentID,
+            agentId:this.state.agentId,
             totalAmount:this.state.totalAmount
         }
         POST("generateTicket",obj,{headerStatus:true})
@@ -218,7 +218,7 @@ export default class Lottery extends Component {
                                 <div className="col-lg-6 col-sm-6 col-xs-6">
                                     <div className="md-form mb-4">
                                         <label data-error="wrong" data-success="right" for="defaultForm-email" style={{color:'black'}}>Agent ID</label>
-                                        <input name="agentID" disabled onChange={this.handleChange} type="text" id="defaultForm-email" className="form-control validate" placeholder={this.state.agentId}/>
+                                        <input name="agentId" disabled onChange={this.handleChange} type="text" id="defaultForm-email" className="form-control validate" placeholder={this.state.agentId}/>
                                     </div>
                                 </div>
                             </div>                  
