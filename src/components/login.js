@@ -70,7 +70,7 @@ export default class login extends Component {
                                             <form>
                                                 <div className="form-group">
                                                     <label for="exampleInputEmail1">User Name</label>
-                                                    <input type="text" name="email" onChange={this.handleOnChange} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" />
+                                                    <input type="text" name="email" onChange={this.handleOnChange} className="form-control" autoComplete="off" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" />
                                                 </div>
                 
                                                 <div className="form-group">

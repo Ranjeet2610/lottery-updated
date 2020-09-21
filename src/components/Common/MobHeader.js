@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
-import Logo from '../../Assets/images/icon/logo.png'
+import {Modal} from 'react-bootstrap'
+import { POST } from '../../Services/Api';
 
 
 export default class MobHeader extends Component {
@@ -8,19 +9,65 @@ export default class MobHeader extends Component {
     super(props);
     this.state = {
         display:'none',
-        drop:''
+        drop:'',
+        show:false,
+        userName:'',
+        oldPassword:'',
+        newPassword:'',
+        confirmPassword:'',
+        userType:''
     }
 }
 
-    handleNavbar = () => {
-        if(this.state.display==='none')
-        this.setState({
-            display:'block'
+    async componentDidMount(){
+        let user = JSON.parse(localStorage.getItem("user"))
+        await this.setState({
+            userName:user.data.userName,
+            userType:user.data.userType
         })
-        if(this.state.display==='block')
-        this.setState({
+    }
+
+    handleNavbar = (parameter) => {
+        if(parameter==="Navbar"){
+            if(this.state.display==='none')
+                this.setState({
+                display:'block'
+            })
+            if(this.state.display==='block')
+                this.setState({
+                display:'none'
+            })
+        }
+        if(parameter==='Admin'){
+            this.props.manageToggle("Admin")
+            this.setState({
             display:'none'
-        })
+            })
+        }
+        if(parameter==='Manage_Lottery'){
+            this.props.manageToggle("Manage_Lottery")
+            this.setState({
+            display:'none'
+            })
+        }
+        if(parameter==='Manage_Cricket'){
+            this.props.manageToggle("Manage_Cricket")
+            this.setState({
+            display:'none'
+            })
+        }
+        if(parameter==='lottery'){
+            this.props.manageToggle("lottery")
+            this.setState({
+            display:'none'
+            })
+        }
+        if(parameter==='cricket'){
+            this.props.manageToggle("cricket")
+            this.setState({
+            display:'none'
+            })
+        }
     }
 
     handleDrop = () => {
@@ -42,6 +89,39 @@ export default class MobHeader extends Component {
         }
     }
 
+    handleShow = () => {
+        this.setState({
+            show:true,
+        })
+    }
+
+    handleClose = () => {
+        this.setState({
+            show:false
+        })
+    }
+
+    handleChangePassword = () => {        
+        const obj = {
+            userName:this.state.userName,
+            oldPassword:this.state.oldPassword,
+            newPassword:this.state.newPassword,
+            }
+        POST("changePasswordByUser",obj,{headerStatus:true})
+        .then(res=>{
+            console.log("changePassword",res)
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+        this.handleClose();
+    }
+
+    handleChange = (event) => {
+        this.setState({
+            [event.target.name]: event.target.value
+        })
+    }
     
     render() {
         return (
@@ -49,14 +129,14 @@ export default class MobHeader extends Component {
                     <div className="header-mobile__bar">
                         <div className="container-fluid">
                             <div className="header-mobile-inner">
-                                <Link className="logo" >
-                                <img src={Logo} alt={<h2>ADMIN PANEL</h2>} style={{width:'150px'}}/>
+                                <Link className="border pt-2" >
+                                <h5 style={{fontFamily:'Times New Roman',fontWeight:'bold', color:'#666'}}>ADMIN PANEL</h5>
                                 </Link>
                                 <div className="account-wrap">
                                     <div className="account-item clearfix js-item-menu">
-                                        <div className="content">
+                                        <div className="content border ml-2">
                                             <Link className="js-acc-btn " role="button" onClick={this.handleDrop}>
-                                                john doe
+                                            {this.state.userName}
                                                 <i className="fas fa-angle-down ml-2"/>
                                             </Link>
                                         </div>
@@ -64,7 +144,7 @@ export default class MobHeader extends Component {
                                             <ul style={{listStyle:'none'}}>
                                                 <li className="account-dropdown__body">
                                                     <div className="account-dropdown__item">
-                                                        <Link>
+                                                        <Link onClick={this.handleShow}>
                                                             <i className="fas fa-lock"/>
                                                             Change Password
                                                         </Link>
@@ -80,39 +160,92 @@ export default class MobHeader extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <button className="hamburger hamburger--slider" type="button" onClick={this.handleNavbar}>
+                                <button className="hamburger hamburger--slider" type="button" onClick={()=>this.handleNavbar('Navbar')}>
                                     <i className="fa fa-bars"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
 
-                    <nav className="navbar-mobile" style={{"display" : this.state.display}}>
-                        <div className="container-fluid">
-                            <div className="navbar-mobile__list list-unstyled">
-        
-                    
-                                <li className="has-sub">
-                                    <Link className="js-arrow">
-                                        <i className="fas fa-users"/>
-                                        Agents List
-                                    </Link>
-                                </li>
-                 
+                    {
+                        // Modal for Change Password
+                    }
 
-                                <li>
-                                    <Link onClick={() => {this.props.manageToggle("Manage_Lottery")}}>
-                                    <i className="fas fa-ticket-alt"></i>Manage Lottery</Link>
-                                </li>
-    
-                                <li>
-                                    <Link onClick={() => {this.props.manageToggle("Manage_Cricket")}}>
-                                    <i className="fas fa-volleyball-ball"></i>Manage Cricket</Link>
-                                </li>
-        
+                    <Modal show={this.state.show} onHide={this.handleClose}>
+                        <Modal.Header  style={{justifyContent:'center'}} closeButton>
+                            <Modal.Title>Change Password</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                        <div className="container">
+                            <div className="">
+                                <label style={{color:'black'}}>
+                                    Old Password:
+                                </label>
+                                <input onChange={this.handleChange} name="oldPassword" type="text" className="form-control" placeholder="Old Password" /> 
+                            </div>
+                            <div className="my-3">
+                                <label style={{color:'black'}}>
+                                    New Password:
+                                </label>
+                                <input onChange={this.handleChange} name="newPassword" type="text" className="form-control" placeholder="New Password" /> 
+                            </div>
+                            <div className="">
+                                <label style={{color:'black'}}>
+                                    Confirm Password:
+                                </label>
+                                <input onChange={this.handleChange} name="confirmPassword" type="text" className="form-control" placeholder="Confirm Password" /> 
                             </div>
                         </div>
-                    </nav>
+                    </Modal.Body>
+                        <Modal.Footer style={{justifyContent:'center'}}>
+                            <button className="btn btn-success" onClick={this.handleChangePassword}>Update</button>
+                        </Modal.Footer>
+                </Modal>
+
+                    {
+                        // Navbar block
+                    }
+                    
+                        <nav className="navbar-mobile" style={{"display" : this.state.display}}>
+                            <div className="container-fluid">
+                            {
+                                (this.state.userType===1) ?
+                                <div className="navbar-mobile__list list-unstyled">
+            
+                                    <li className="has-sub">
+                                        <Link onClick={() => {this.handleNavbar("Admin")}}>
+                                        <i className="fas fa-chalkboard-teacher"/><span className="mobNav">Dashboard</span></Link>
+                                    </li>
+                    
+                                    <li>
+                                        <Link onClick={() => {this.handleNavbar("Manage_Lottery")}}>
+                                        <i className="fas fa-ticket-alt"/><span className="mobNav">Manage Lottery</span></Link>
+                                    </li>
+        
+                                    <li>
+                                        <Link onClick={() => {this.handleNavbar("Manage_Cricket")}}>
+                                        <i className="fas fa-volleyball-ball"/><span className="mobNav">Manage Cricket</span></Link>
+                                    </li>
+            
+                                </div>
+                                :
+                                <div className="navbar-mobile__list list-unstyled">
+            
+                                    <li>
+                                        <Link onClick={() => {this.handleNavbar("lottery")}}>
+                                        <i className="fas fa-ticket-alt"/><span className="mobNav">Lottery</span></Link>
+                                    </li>
+        
+                                    <li>
+                                        <Link onClick={() => {this.handleNavbar("cricket")}}>
+                                        <i className="fas fa-volleyball-ball"/><span className="mobNav">Cricket</span></Link>
+                                    </li>
+            
+                                </div>
+                            }
+                            </div>
+                        </nav>
+                   
                 </header>
         )
     }
