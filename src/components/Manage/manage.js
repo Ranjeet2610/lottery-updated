@@ -22,6 +22,11 @@ export default class manage extends Component {
     }
 
     componentDidMount(){
+
+        this.setState({
+            AdminPage: true
+        })
+        
         POST("getTicketsByAdmin")
         .then(res=>{
             this.setState({
@@ -50,19 +55,25 @@ export default class manage extends Component {
     }
 
     manageToggle = (id) =>{
-        debugger
         if(id === "Manage_Lottery"){
             this.setState({
                 AdminPage:false,
                 Manage_Cricket:false,
-                Manage_Lottery:!this.state.Manage_Lottery,
+                Manage_Lottery:true,
             })
         }
         else if(id === "Manage_Cricket"){
             this.setState({
                 AdminPage:false,
                 Manage_Lottery:false,
-                Manage_Cricket:!this.state.Manage_Cricket
+                Manage_Cricket:true
+            })
+        }
+        else if(id === "Admin"){
+            this.setState({
+                AdminPage:true,
+                Manage_Lottery:false,
+                Manage_Cricket:false
             })
         }
         else if(id!==""){
@@ -78,19 +89,11 @@ export default class manage extends Component {
                 ticketHistory:false
             })
         }
-        else{
-            this.setState({
-                AdminPage:!this.state.AdminPage,
-                Manage_Lottery:false,
-                Manage_Cricket:false,
-            })
-        }
 
         this.getTicketsByuser(id); 
     }
 
     render() {
-        console.log("ticketHistoryData",this.state.ticketHistoryData)   
         return (
             <div className="animsition">
                 <div className="page-wrapper">
@@ -99,8 +102,10 @@ export default class manage extends Component {
                     <div className="page-container">
                         <WebHeader/>
                         <div className="main-content">
-                            {(this.state.Manage_Cricket===false && this.state.Manage_Lottery === false && this.state.AdminPage===false && this.state.ticketHistory===false) ? <AdminPage manageToggle={(id) => this.manageToggle(id) }/> : null}
-                            {   this.state.AdminPage ? <AdminPage/> : null }
+                            {//(this.state.Manage_Cricket===false && this.state.Manage_Lottery === false && this.state.AdminPage===false && this.state.ticketHistory===false) ? <AdminPage manageToggle={(id) => this.manageToggle(id) }/> : null
+                        }
+                            
+                            {   this.state.AdminPage ? <AdminPage manageToggle={(id) => this.manageToggle(id) }/> : null }
                             {   this.state.Manage_Lottery ? <ManageLottery lottery={this.state.manageLotteryData}/> : null }
                             {   this.state.Manage_Cricket ? <ManageCricket/> : null }
                             {   this.state.ticketHistory ? <TicketHistory historyData={this.state.ticketHistoryData} manageToggle={(id) => this.manageToggle(id)}></TicketHistory> : null }

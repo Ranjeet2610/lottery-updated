@@ -34,8 +34,8 @@ export default class forgetpassword extends Component {
                                         <div className="login-form">
                                             <form onSubmit={this.handleOnSubmit}>
                                                 <div className="form-group">
-                                                <label for="email1" className="lead">Email address</label>
-                                                <input type="email" name="email" onChange={this.handleChange} className="form-control" required id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="email" />
+                                                    <label for="email1" className="lead">Email address</label>
+                                                    <input type="email" name="email" onChange={this.handleChange} className="form-control" required id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="email" />
                                                 </div>
                                             
                                                 <button type="submit" className="btn btn-primary btn-smt lead">Submit</button>

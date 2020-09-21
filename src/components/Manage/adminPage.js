@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+import DatePicker from 'react-datepicker';
+// import TimePicker from 'react-time-picker';
 import Modal from "react-bootstrap/Modal";
 import { POST, GET } from "../../Services/Api";
 import { Link } from "react-router-dom";
-
+import 'react-datepicker/dist/react-datepicker.css'
 export default class adminPage extends Component {
   constructor(props) {
     super(props);
@@ -12,7 +14,6 @@ export default class adminPage extends Component {
       Name: "",
       userName: "",
       Commission: "",
-      Date: "",
       password: "",
       agentInfo: [],
       updatedChips:'',
@@ -21,16 +22,31 @@ export default class adminPage extends Component {
       viewCommission: "none",
       id: "",
       userLock: "",
-      arr: ["User Balance", "name New Free Chips"],
       backColor: "",
       freeChips: "",
       chipFlag: false,
+      eventFlag:false,
       indx:'',
       ticketHistoryData:[],
+      winningNumber:'',
+      ResultDate:new Date(),
+      ResultTime:'',
+      OpenDate:new Date(),
+      OpenTime:'',
+      resultSettlement:false,
+      userID:'',
+      brr:[1,2,3,4,5,6,7,8,9,10]
     };
   }
 
   componentDidMount() {
+    let hour = new Date().getHours()
+    let min = new Date().getMinutes()
+    let time=hour+":"+min
+    this.setState({
+      ResultTime:time,
+      OpenTime:time
+    })
     this.getAgentList();
   }
 
@@ -53,6 +69,15 @@ export default class adminPage extends Component {
       this.setState({
         agentModal: true,
       });
+    if (modalForm === "Result Settlement")
+      this.setState({
+        resultSettlement: true,
+      });
+    if (modalForm === "AddEvent")
+      this.setState({
+        resultSettlement: true,
+        eventFlag:true
+      });
     if (modalForm === "Deposit")
       this.setState({
         depositModal: true,
@@ -72,8 +97,13 @@ export default class adminPage extends Component {
     if (modalForm === "AddAgent") {
       this.setState({
         agentModal: false,
+        eventFlag:false,
       });
     }
+    if (modalForm === "Result Settlement")
+      this.setState({
+        resultSettlement: false,
+      });
     if (modalForm === "Deposit") {
       this.setState({
         depositModal: false,
@@ -104,10 +134,11 @@ export default class adminPage extends Component {
     });
   };
 
-  handleLock = (userName) => {
-    this.setState({
+  handleLock = async(userName,userid) => {
+    await this.setState({
       userLock: userName,
-    });
+      userID:userid
+    })
   };
 
   handleBlock = () => {
@@ -134,9 +165,6 @@ export default class adminPage extends Component {
     POST("createAccount", obj, { headerStatus: true })
       .then((res) => {
         this.getAgentList()
-        // .catch((error) => {
-        //   console.log(error);
-        // });
       })
       .catch((error) => {
         console.log(error);
@@ -145,7 +173,6 @@ export default class adminPage extends Component {
   };
 
   handleUpdateChip = (id, flag) => {
-    debugger
     const obj = {
       userid: id,
       fillAmount: parseInt(this.state.freeChips),
@@ -153,10 +180,12 @@ export default class adminPage extends Component {
     if (flag) {
       POST("debitAmountByAdmin", obj, { headerStatus: true })
         .then((res) => {
+          this.getAgentList()
           this.setState({
-            agentInfo:res
+            updatedChips:res.data.Data.walletBalance,
+            viewMore:'none',
+            backColor:''
           })
-          console.log("debitAmountByAdmin",res)
         })
         .catch((error) => {
           console.log(error);
@@ -164,11 +193,13 @@ export default class adminPage extends Component {
     } 
     else {
       POST("creditAmountByAdmin", obj, { headerStatus: true })
-        .then((res) => {
-          this.setState({
-            updatedChips:res.data.Data.walletBalance
-          })
-          console.log("creditAmountByAdmin ",this.state.updatedChips);
+      .then((res) => {
+        this.setState({
+          updatedChips:res.data.Data.walletBalance,
+          viewMore:'none',
+          backColor:''
+        })
+        this.getAgentList()
         })
         .catch((error) => {
           console.log(error);
@@ -181,17 +212,79 @@ export default class adminPage extends Component {
     this.props.manageToggle(agName)
   }
 
+  handleResultDate = (paramdate) => {
+       this.setState({
+        ResultDate:paramdate
+      })
+    }
+
+  handleResultTime = (paramdate) =>{
+       this.setState({
+        ResultTime:paramdate
+      })
+    }   
+
+  handleOpenDate = (paramdate) =>{
+    this.setState({
+        OpenDate:paramdate
+      })
+    }      
+
+  handleOpenTime = (paramdate) =>{
+    this.setState({
+        OpenTime:paramdate
+      })
+    }
+
+
+  handleDelete = () => {
+    const obj = {
+      userId : this.state.userID
+    }
+    POST("deleteAgent",obj)
+    .then(res=>{
+      this.getAgentList();
+    })
+    .catch(error=>{
+      console.log(error)
+    })
+  }
+
+  updateResult = () => {
+    const obj = {
+      resultDate:this.state.resultDate,
+      openDate:this.state.openDate,
+      openTime:this.state.openTime,
+      resultTime:this.state.resultTime
+    }
+    POST("updateResult",obj)
+    .then(res=>{
+      console.log(res)
+    })
+    .catch(error=>{
+      console.log(error)
+    })
+  }
+
+  handleSubmit = (apiType) => {
+    if(apiType==="Add Event"){
+      this.updateResult();
+    }
+    else if(apiType===""){
+      console.log("No Api....!")
+    }
+  }
+
 
   render() {
-    let i = 0;
     return (
         <div className="main-content">
             <div className="section__content section__content--p30">
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-lg-12">
-                            <button className="btn btn-admin btn-danger float-right mb-4">
-                                <i className="fa fa-trash mr-2"></i>
+                            <button className="btn btn-admin btn-danger float-right mb-4" onClick={this.handleDelete}>
+                                <i className="fa fa-trash mr-2"/>
                                 DELETE AGENT
                             </button>
                             <button className="btn btn-admin btn-dark float-right mb-4 mr-2" onClick={this.handleBlock}>
@@ -202,6 +295,23 @@ export default class adminPage extends Component {
                                 <i className="fas fa-plus mr-2" />
                                 ADD AGENT
                             </button>
+                            <button 
+                              className="btn btn-admin btn-secondary float-right mb-4 mr-2" 
+                              onClick={() => this.handleShow("Result Settlement")}>
+                              <i className="fas fa-poll mr-2" />
+                              Result Settlement
+                            </button>                  
+                            <button 
+                              className="btn btn-admin btn-secondary float-right mb-4 mr-2" 
+                              onClick={() => this.handleShow("AddEvent")}>
+                              <i className="fas fa-plus mr-2" />
+                                Add Event
+                            </button>    
+                            
+                            {
+                              // <span className="mr-2">Result Date:</span>                
+                              // <DatePicker selected={this.state.resultDate} onChange={(date)=>this.handleDatepicker(date)}/><br/>
+                            }
 
                             <div className="table-responsive m-b-30">
                                 <table className="table table-bordered table-striped table-earning table-hover">
@@ -215,18 +325,21 @@ export default class adminPage extends Component {
                                         <th>View More</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
                                         {
-                                            this.state.agentInfo?.map((ele, index) => {
-                                                i += 1;
+                                          (this.state.agentInfo.length < 0) ? <div className="justify-content-center">Empty !</div> :
+                                            (this.state.agentInfo.map((ele, index) => {
+                                               
                                                 return (
+                                                  <tbody>
+
                                                     <tr>
                                                         <td className="align-middle">
-                                                        {i}&nbsp;
+                                                        {index+1}&nbsp;
                                                         <input
-                                                            type="checkbox"
+                                                            name="radio"
+                                                            type="radio"
                                                             onClick={() => {
-                                                            this.handleLock(ele.userName);
+                                                            this.handleLock(ele.userName,ele.id);
                                                             }}
                                                         />
                                                         &nbsp;
@@ -276,11 +389,12 @@ export default class adminPage extends Component {
                                                                 }
                                                             </div>
                                                         </td>
-                                                    </tr>
+                                                        </tr>
+                                                      </tbody>
                                                 )}
-                                            )
+                                            ))
+                                            
                                         }
-                                    </tbody>
                                 </table>
 
                                 <div className="row">
@@ -296,6 +410,80 @@ export default class adminPage extends Component {
                     </div>
                 </div>
             </div>
+
+            {
+              // Modal for Result SettleMent and Add Event
+            }
+            <Modal show={this.state.resultSettlement} onHide={()=>this.handleClose("Result Settlement")}>
+                              <Modal.Header  className="bg-dark">
+                                <Modal.Title>{this.state.eventFlag ? "Add Event" : "Result Settlement"}</Modal.Title>
+                              </Modal.Header>
+                              {
+                                this.state.eventFlag ?
+                                <Modal.Body>
+                                  <div className="d-flex my-2">
+                                    <label className="lead w-25">Result Date:</label>
+                                    <div className="bg-dark">
+                                      <DatePicker 
+                                        peekNextMonth 
+                                        showMonthDropdown 
+                                        showYearDropdown 
+                                        dropdownMode="select" 
+                                        dateFormat="MM/dd/yyyy" 
+                                        selected={this.state.ResultDate}
+                                        className="p-2 border text-center" 
+                                        onChange={(ResultDate)=>this.handleResultDate(ResultDate)}/>
+                                    </div>
+                                  </div>
+                                  <div className="d-flex my-2">
+                                    <label className="lead w-25">Result Time:</label>
+                                    <div className="border">
+                                      <input
+                                        className="text-center py-2 px-5"
+                                        type="time"
+                                        defaultValue={this.state.ResultTime}
+                                        onChange={this.handleResultTime}/>
+                                    </div>
+                                  </div>
+                                  <div className="d-flex my-2">
+                                    <label className="lead w-25">Open Date&nbsp;:</label>
+                                    <div className="bg-dark">  
+                                      <DatePicker 
+                                        peekNextMonth 
+                                        showMonthDropdown 
+                                        showYearDropdown 
+                                        dropdownMode="select" 
+                                        dateFormat="MM/dd/yyyy" 
+                                        selected={this.state.OpenDate}
+                                        className="p-2 border text-center" 
+                                        onChange={(OpenDate)=>this.handleOpenDate(OpenDate)}/>
+                                    </div>
+                                  </div>
+                                  <div className="d-flex my-2">
+                                    <label className="lead w-25">Open Time&nbsp;:</label>
+                                    <div className="border">
+                                      <input 
+                                        className="text-center py-2 px-5"
+                                        type="time"
+                                        defaultValue={this.state.OpenTime}
+                                        onChange={this.handleOpenTime}/>
+                                    </div>
+                                  </div>
+                                </Modal.Body>
+                                  :
+                                <Modal.Body>
+                                <span className="mr-2">Winning no:</span>
+                                <select name='winningNumber' className="p-1" style={{borderRadius:'7px',outline:'none'}} onChange={this.handleChange}>
+                                  {
+                                    this.state.brr.map(i=><option>{i}</option>)
+                                  }
+                                </select>
+                                </Modal.Body>
+                              }
+                              <Modal.Footer className="justify-content-center bg-dark">
+                              <button className="btn btn-info" >Submit</button>
+                              </Modal.Footer>
+                            </Modal>
 
             {
             // Modal for ADD AGENT

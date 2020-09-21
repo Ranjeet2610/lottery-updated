@@ -7,6 +7,7 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import AgentDashboard from './components/agentDashboard/Agentdashboard'
 import TicketHistory from './components/Manage/ticketHistory'
 import LotteryT from './components/lotteryT'
+import PrintTicket from './components/Common/printTicket';
 
 class App extends Component {
   render() {
@@ -21,6 +22,7 @@ class App extends Component {
                 <Route path ="/agentdashboard" component={AgentDashboard}/>
                 <Route path ="/tickethistory" component={TicketHistory}/>
                 <Route path ="/lotteryticket" component={LotteryT}/>
+                <Route path ="/printticket" component={PrintTicket}/>
         </Switch>
       </Router>
     );
