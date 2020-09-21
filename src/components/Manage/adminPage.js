@@ -57,6 +57,7 @@ export default class adminPage extends Component {
               this.setState({
                   agentInfo: res.data
               })
+              console.log("fhdgf",this.state.agentInfo)
           }
       })
       .catch(err => {
@@ -72,6 +73,7 @@ export default class adminPage extends Component {
     if (modalForm === "Result Settlement")
       this.setState({
         resultSettlement: true,
+        eventFlag:false
       });
     if (modalForm === "AddEvent")
       this.setState({
@@ -180,11 +182,12 @@ export default class adminPage extends Component {
     if (flag) {
       POST("debitAmountByAdmin", obj, { headerStatus: true })
         .then((res) => {
-          this.getAgentList()
           this.setState({
             updatedChips:res.data.Data.walletBalance,
             viewMore:'none',
             backColor:''
+          }, () => {
+            this.getAgentList()
           })
         })
         .catch((error) => {
@@ -198,8 +201,8 @@ export default class adminPage extends Component {
           updatedChips:res.data.Data.walletBalance,
           viewMore:'none',
           backColor:''
-        })
-        this.getAgentList()
+        },()=>this.getAgentList()
+        )
         })
         .catch((error) => {
           console.log(error);
@@ -270,7 +273,7 @@ export default class adminPage extends Component {
     if(apiType==="Add Event"){
       this.updateResult();
     }
-    else if(apiType===""){
+    else if(apiType==="Result Settlement"){
       console.log("No Api....!")
     }
   }
@@ -376,7 +379,7 @@ export default class adminPage extends Component {
                                                                             </Link>
                                                                         </li>
                                                                         <li>
-                                                                            <Link onClick={() => { this.handleShow("Withdrawl",ele.id,ele.walletBalance); }} >
+                                                                            <Link onClick={() => { this.handleShow("Withdrawl",ele.id,ele.walletBalance) }} >
                                                                                 Free Chip Withdrawal
                                                                             </Link>
                                                                         </li>
@@ -415,15 +418,15 @@ export default class adminPage extends Component {
               // Modal for Result SettleMent and Add Event
             }
             <Modal show={this.state.resultSettlement} onHide={()=>this.handleClose("Result Settlement")}>
-                              <Modal.Header  className="bg-dark">
+                              <Modal.Header closeButton className="bg-dark">
                                 <Modal.Title>{this.state.eventFlag ? "Add Event" : "Result Settlement"}</Modal.Title>
                               </Modal.Header>
                               {
                                 this.state.eventFlag ?
                                 <Modal.Body>
                                   <div className="d-flex my-2">
-                                    <label className="lead w-25">Result Date:</label>
-                                    <div className="bg-dark">
+                                    <label className="lead label_calender">Result Date:</label>
+                                    <div className="rcalender  ml-1">
                                       <DatePicker 
                                         peekNextMonth 
                                         showMonthDropdown 
@@ -431,23 +434,23 @@ export default class adminPage extends Component {
                                         dropdownMode="select" 
                                         dateFormat="MM/dd/yyyy" 
                                         selected={this.state.ResultDate}
-                                        className="p-2 border text-center" 
+                                        className="" 
                                         onChange={(ResultDate)=>this.handleResultDate(ResultDate)}/>
                                     </div>
                                   </div>
                                   <div className="d-flex my-2">
-                                    <label className="lead w-25">Result Time:</label>
-                                    <div className="border">
+                                    <label className="lead label_calender">Result Time:</label>
+                                    <div className="rcalender border ml-1">
                                       <input
-                                        className="text-center py-2 px-5"
+                                        className=""
                                         type="time"
                                         defaultValue={this.state.ResultTime}
                                         onChange={this.handleResultTime}/>
                                     </div>
                                   </div>
                                   <div className="d-flex my-2">
-                                    <label className="lead w-25">Open Date&nbsp;:</label>
-                                    <div className="bg-dark">  
+                                    <label className="lead label_calender">Open Date&nbsp;:</label>
+                                    <div className="rcalender border ml-1">  
                                       <DatePicker 
                                         peekNextMonth 
                                         showMonthDropdown 
@@ -455,15 +458,15 @@ export default class adminPage extends Component {
                                         dropdownMode="select" 
                                         dateFormat="MM/dd/yyyy" 
                                         selected={this.state.OpenDate}
-                                        className="p-2 border text-center" 
+                                        className="" 
                                         onChange={(OpenDate)=>this.handleOpenDate(OpenDate)}/>
                                     </div>
                                   </div>
                                   <div className="d-flex my-2">
-                                    <label className="lead w-25">Open Time&nbsp;:</label>
-                                    <div className="border">
+                                    <label className="lead label_calender">Open Time&nbsp;:</label>
+                                    <div className="rcalender border ml-1">
                                       <input 
-                                        className="text-center py-2 px-5"
+                                        className="calender"
                                         type="time"
                                         defaultValue={this.state.OpenTime}
                                         onChange={this.handleOpenTime}/>
@@ -481,7 +484,7 @@ export default class adminPage extends Component {
                                 </Modal.Body>
                               }
                               <Modal.Footer className="justify-content-center bg-dark">
-                              <button className="btn btn-info" >Submit</button>
+                              <button className="btn btn-info" onClick={this.state.eventFlag ? ()=>this.handleSubmit("Add Event") : ()=>this.handleSubmit("Result Settlement")}>Submit</button>
                               </Modal.Footer>
                             </Modal>
 
@@ -573,18 +576,18 @@ export default class adminPage extends Component {
 
             <Modal show={this.state.depositModal} onHide={() => {this.handleClose("Deposit") }} >
                 <Modal.Header closeButton>
-                    <Modal.Title className="">Free Chip {this.state.chipFlag ? "Withdrawl" : "Deposit"}</Modal.Title>
+                    <Modal.Title className="ml-4">Free Chip {this.state.chipFlag ? "Withdrawl" : "Deposit"}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                   <div className="row">
                     <div>
-                        <label className=""> 
+                        <label className="ml-4"> 
                             Free Chips: 
-                            <input className="form-control w-100" name="freeChips" onChange={this.handleChange} />
+                            <input className="form-control w-100" name="freeChips" onChange={this.handleChange} autoComplete="off"/>
                         </label>
                     </div>
                     <div>
-                        <label className=""> 
+                        <label className="ml-4"> 
                             WalletBalance: 
                             <input className="form-control w-100" disabled name="freeChips" onChange={this.handleChange} value={this.state.updatedChips} />
                         </label>

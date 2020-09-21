@@ -58,8 +58,7 @@ export default class WebHeader extends Component {
         })
     }
 
-    handleChangePassword = () => {
-        // debugger         
+    handleChangePassword = () => {        
         const obj = {
             userName:this.state.userName,
             oldPassword:this.state.oldPassword,

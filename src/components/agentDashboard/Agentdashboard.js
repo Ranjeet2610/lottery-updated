@@ -34,7 +34,7 @@ export default class Agentdashboard extends Component {
         return (
             <div className="animsition">
                 <div className="page-wrapper">
-                    <MobHeader/>
+                    <MobHeader manageToggle={(id) => this.manageToggle(id)} />
                     <AgentNavbar manageToggle={(id) => this.manageToggle(id) }/>         
                     <div className="page-container">
                         <WebHeader/>
