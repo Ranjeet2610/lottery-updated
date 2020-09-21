@@ -19,7 +19,7 @@ export default class Lottery extends Component {
             this.setState({
                 addEvent:res.data.resultDetail
             })
-            console.log("asd",this.state.addEvent)
+            // console.log("asd",this.state.addEvent)
         })
         .catch(error=>{
             console.log(error)
@@ -27,7 +27,7 @@ export default class Lottery extends Component {
     }
 
     render() {
-        console.log(this.state.propsInfo)
+        // console.log(this.state.propsInfo)
         return (
             <div>
                 <div class="wrapper container">

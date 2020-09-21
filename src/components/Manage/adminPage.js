@@ -261,6 +261,7 @@ export default class adminPage extends Component {
       openTime:this.state.openTime,
       resultTime:this.state.resultTime
     }
+    console.log(obj)
     POST("updateResult",obj)
     .then(res=>{
       console.log(res)

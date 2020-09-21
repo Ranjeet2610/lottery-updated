@@ -26,7 +26,10 @@ export default class printTicket extends Component {
                         }}
                         content={() => this.componentRef}
                     />
-                    <button className="btn btn-primary m-2">Share</button>
+                      <button className="btn btn-primary m-2"  onClick={(e) => {
+                           e.preventDefault();
+                           window.location.href='https://api.whatsapp.com/send?phone=12134104200&text=';
+                          }}>Share</button>         
                 </div>
                 <LotteryT info={this.state.ticketData} ref={el => (this.componentRef = el)} />
             </div>
