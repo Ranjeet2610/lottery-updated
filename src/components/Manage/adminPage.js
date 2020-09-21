@@ -81,6 +81,7 @@ export default class adminPage extends Component {
     if (modalForm === "Deposit")
       this.setState({
         depositModal: true,
+        chipFlag: false,
         id:userId,
         updatedChips:wallet
       });

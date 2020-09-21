@@ -22,7 +22,7 @@ export default class Lottery extends Component {
       indx: null,
       bgColor: "#007bff",
       agentName: "",
-      agentID: "",
+      agentId: "",
       ticketList: [],
       totalAmount: 0,
       disable: true,
@@ -99,7 +99,7 @@ export default class Lottery extends Component {
       nine: this.state.num9,
       ten: this.state.num10,
       agentName: this.state.agentName,
-      agentId: this.state.agentID,
+      agentId: this.state.agentId,
       totalAmount: this.state.totalAmount,
     };
     POST("generateTicket", obj, { headerStatus: true })
@@ -232,7 +232,7 @@ export default class Lottery extends Component {
                         Agent ID:
                       </label>
                       <input
-                        name="agentID"
+                        name="agentId"
                         disabled
                         onChange={this.handleChange}
                         type="text"
