@@ -6,7 +6,7 @@ export default class ticketHistory extends Component {
         let i=0;
         return (
             <div className="main-content">
-                <button className="float-right mr-5 mb-2 btn btn-dark" oonClick={() => {this.props.history.goBack()}}>Back</button>
+            <h1 className="ml-3 mb-4 border">Ticket History</h1>
                 <div className="table-responsive table--no-card m-b-30">
                     <table className="table table-bordered table-striped table-earning">
                         <thead>

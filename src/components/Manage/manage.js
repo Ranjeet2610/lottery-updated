@@ -94,7 +94,6 @@ export default class manage extends Component {
     }
 
     render() {
-        console.log("ticketHistoryData",this.state.ticketHistoryData)   
         return (
             <div className="animsition">
                 <div className="page-wrapper">

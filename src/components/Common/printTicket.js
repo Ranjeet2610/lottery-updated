@@ -14,16 +14,21 @@ export default class printTicket extends Component {
     
     
     render() {
-        console.log(this.state.ticketData)
         return (
             <div>
-            <ReactToPrint
-            trigger={() => {
-              return <div style={{paddingLeft:'100px'}}><button className="btn btn-success m-2">Print</button></div>
-            }}
-            content={() => this.componentRef}
-          />
-          <LotteryT info={this.state.ticketData} ref={el => (this.componentRef = el)} />
+                <div className="d-flex float-right pr-5 mr-5">
+                    <ReactToPrint
+                        trigger={() => {
+                        return (
+                            <div style={{paddingLeft:'100px'}}>
+                                <button className="btn btn-success m-2">Print</button>
+                            </div>)
+                        }}
+                        content={() => this.componentRef}
+                    />
+                    <button className="btn btn-primary m-2">Share</button>
+                </div>
+                <LotteryT info={this.state.ticketData} ref={el => (this.componentRef = el)} />
             </div>
         )
     }

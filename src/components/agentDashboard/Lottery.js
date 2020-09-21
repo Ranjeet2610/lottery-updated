@@ -333,13 +333,6 @@ export default class Lottery extends Component {
                                   >
                                     View
                                   </Link>
-
-                                  <Link
-                                    className="btn btn-primary btn-one ml-1"
-                                    style={{ width: "100px" }}
-                                  >
-                                    share
-                                  </Link>
                                 </div>
                               </td>
                             </tr>
