@@ -47,6 +47,8 @@ export default class adminPage extends Component {
       ResultTime:time,
       OpenTime:time
     })
+    // console.log(this.state.ResultDate)
+    console.log(this.state.ResultDate.toLocaleString('en-GB', { timeZone: 'UTC' }).substring(0,10));
     this.getAgentList();
   }
 
@@ -57,7 +59,7 @@ export default class adminPage extends Component {
               this.setState({
                   agentInfo: res.data
               })
-              console.log("fhdgf",this.state.agentInfo)
+              // console.log("fhdgf",this.state.agentInfo)
           }
       })
       .catch(err => {
@@ -256,10 +258,10 @@ export default class adminPage extends Component {
 
   updateResult = () => {
     const obj = {
-      resultDate:this.state.resultDate,
-      openDate:this.state.openDate,
-      openTime:this.state.openTime,
-      resultTime:this.state.resultTime
+      resultDate:this.state.ResultDate.toLocaleString('en-GB', { timeZone: 'UTC' }).substring(0,10),
+      openDate:this.state.OpenDate.toLocaleString('en-GB', { timeZone: 'UTC' }).substring(0,10),
+      openTime:this.state.OpenTime,
+      resultTime:this.state.ResultTime
     }
     console.log(obj)
     POST("updateResult",obj)
@@ -434,7 +436,7 @@ export default class adminPage extends Component {
                                         showMonthDropdown 
                                         showYearDropdown 
                                         dropdownMode="select" 
-                                        dateFormat="MM/dd/yyyy" 
+                                        dateFormat="dd/MM/yyyy" 
                                         selected={this.state.ResultDate}
                                         className="" 
                                         onChange={(ResultDate)=>this.handleResultDate(ResultDate)}/>
@@ -458,7 +460,7 @@ export default class adminPage extends Component {
                                         showMonthDropdown 
                                         showYearDropdown 
                                         dropdownMode="select" 
-                                        dateFormat="MM/dd/yyyy" 
+                                        dateFormat="dd/MM/yyyy" 
                                         selected={this.state.OpenDate}
                                         className="" 
                                         onChange={(OpenDate)=>this.handleOpenDate(OpenDate)}/>

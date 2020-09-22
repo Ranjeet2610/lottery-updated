@@ -27,7 +27,10 @@ export default class Lottery extends Component {
     }
 
     render() {
-        // console.log(this.state.propsInfo)
+        console.log("props",this.state.propsInfo.ele)
+        this.state.addEvent.map(ele=>
+            console.log(ele)
+            )
         return (
             <div>
                 <div class="wrapper container">
@@ -54,11 +57,12 @@ export default class Lottery extends Component {
                     {
                         // <!-- Second Container -->
                     }
+                    
                     {
                         this.state.addEvent.map(element=>
                     <div class="container second-container">
                         <div class="row-text">
-                            <h2>Result Date : {(this.state.propsInfo.ele._id===element.id)?element.resultDate:"dd/mm/yyyy"}</h2>
+                            <h2>Result Date : { element.resultDate }</h2>
                             </div>
                                 <div class="row row-two">
                                     <div class="text-one">
@@ -68,7 +72,7 @@ export default class Lottery extends Component {
                                     
                                 <div class="row row-two mt-2">
                                     <div class="text-two">
-                                        <h2>result time : {(this.state.propsInfo.ele_id===element.id) ? element.openTime : "hh:mm"} to {(this.state.propsInfo.ele_id===element.id) ? element.resultTime : "hh:mm"}</h2>
+                                        <h2>result time : {element.openTime }&nbsp;{(parseInt(element.openTime)>12) ? "PM" : "AM"} to { element.resultTime }&nbsp;{(parseInt(element.openTime)>12) ? "PM" : "AM"}</h2>
                                     </div>
                                 </div>
                             </div>
@@ -76,7 +80,7 @@ export default class Lottery extends Component {
                     }
 
                     {
-                        // <!-- Thrid Container -->
+                        // <!-- Thrid Container -->  
                     }
                     <div class="container text-center mt-4">
                         <div class="row">

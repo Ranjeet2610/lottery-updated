@@ -101,7 +101,7 @@ export default class Lottery extends Component {
       agentName: this.state.agentName,
       agentId: this.state.agentId,
       totalAmount: this.state.totalAmount,
-    };
+    }
     POST("generateTicket", obj, { headerStatus: true })
       .then((res) => {
         console.log(res);
