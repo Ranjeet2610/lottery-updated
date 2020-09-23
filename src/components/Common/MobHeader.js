@@ -130,7 +130,9 @@ export default class MobHeader extends Component {
                         <div className="container-fluid">
                             <div className="header-mobile-inner">
                                 <Link className="border pt-2" >
-                                <h5 style={{fontFamily:'Times New Roman',fontWeight:'bold', color:'#666'}}>ADMIN PANEL</h5>
+                                    <h5 style={{fontFamily:'Times New Roman',fontWeight:'bold', color:'#666'}}>
+                                        {(this.state.userType===1) ? "ADMIN PANEL" : "AGENT PANEL"}
+                                    </h5>
                                 </Link>
                                 <div className="account-wrap">
                                     <div className="account-item clearfix js-item-menu">

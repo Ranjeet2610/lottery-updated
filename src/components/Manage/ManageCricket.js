@@ -13,11 +13,11 @@ export default class ManageCricket extends Component {
                                     <table className="table table-bordered table-striped table-earning">
                                         <thead>
                                             <tr>
-                                                <th>s. no</th>
-                                                <th>agent ID</th>
-                                                <th>agent name</th>
-                                                <th>ticket no.</th>
-                                                <th>ticket value</th>
+                                                <th>s.no.</th>
+                                                <th>agent&nbsp;ID</th>
+                                                <th>agent&nbsp;name</th>
+                                                <th>ticket&nbsp;number</th>
+                                                <th>ticket&nbsp;value</th>
                                             </tr>
                                         </thead>
                                         <tbody>

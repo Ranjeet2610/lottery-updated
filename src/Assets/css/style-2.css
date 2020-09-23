@@ -23,7 +23,7 @@
 .row-one{
     border-top: 3px dashed gray;
     border-bottom: 3px dashed gray;
-    padding: 15px 0 15px 0;
+    /* padding: 15px 0 15px 0; */
     color: #636e72;
 }
 
@@ -34,7 +34,6 @@
 .heading-2{
     font-weight: bold;
     font-size: 25px;
-    padding-left: 11rem;
 }
 
 .heading-3{
@@ -44,16 +43,15 @@
 
 @media only screen and (max-width: 768px) {
     .heading-1{
-        font-size: 10px;
+        font-size: 7px;
     }
 
     .heading-2{
-        font-size: 12px;
-        padding-left: 1rem;
+        font-size: 7px;
     }
 
     .heading-3{
-        font-size: 10px;
+        font-size: 7px;
     }
 }
 
@@ -61,16 +59,15 @@
 @media only screen and (min-width:361px) and (max-width:1024px) {
     
     .heading-1{
-        font-size: 15px;
+        font-size: 8px;
     }
 
     .heading-2{
-        font-size: 15px;
-        padding-left: 4rem;
+        font-size: 8px; 
     }
 
     .heading-3{
-        font-size: 15px;
+        font-size: 8px;
     }
 }
 

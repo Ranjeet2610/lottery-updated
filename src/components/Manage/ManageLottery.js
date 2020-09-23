@@ -21,10 +21,10 @@ export default class ManageLottery extends Component {
                                         <thead>
                                             <tr className="text-center">
                                                 <th>S.No.</th>
-                                                <th>agent ID</th>
-                                                <th>agent name</th>
-                                                <th>ticket no.</th>
-                                                <th>ticket value</th>
+                                                <th>agent&nbsp;ID</th>
+                                                <th>agent&nbsp;name</th>
+                                                <th>ticket&nbsp;number</th>
+                                                <th>ticket&nbsp;value</th>
                                             </tr>
                                         </thead>
                                         {

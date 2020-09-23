@@ -44,7 +44,7 @@ export default class Lottery extends Component {
       .then((res) => {
         this.setState({
           ticketList: res.data.Data,
-        });
+        })
       })
       .catch((error) => {
         console.log(error);
@@ -128,16 +128,12 @@ export default class Lottery extends Component {
     );
   };
 
-  printFunc = () => {
-      this.props.history.push('/lotteryticket')
-  }
-
   render() {
     return (
       <div>
         <Modal show={this.state.show} onHide={this.handleClose}>
-          <Modal.Header closeLink>
-            <Modal.Title style={{ paddingLeft: "155px" }}>
+          <Modal.Header closeButton>
+            <Modal.Title>
               <span style={{ fontSize: "25px", fontFamily: "sans-serif" }}>
                 Create Ticket
               </span>
@@ -149,7 +145,7 @@ export default class Lottery extends Component {
               Numbers
             </h4>
 
-            <div className="form-group row mx-1">
+            <div className="form-group row ml-3">
               {this.state.brr.map((item, index) => {
                 return (
                   <div className="col-xs-1 ml-2 my-2">
@@ -300,9 +296,9 @@ export default class Lottery extends Component {
                         <tr className="text-center">
                           <th>S.No.</th>
                           <th>number</th>
-                          <th>ticket amount</th>
-                          <th>draw number</th>
-                          <th>date & time</th>
+                          <th>ticket&nbsp;amount</th>
+                          <th>draw&nbsp;number</th>
+                          <th>date&nbsp;& &nbsp;time</th>
                           <th>print</th>
                         </tr>
                       </thead>
@@ -328,10 +324,10 @@ export default class Lottery extends Component {
                                         }
                                       }
                                     }
-                                    className="btn btn-success mr-1"
+                                    className="btn btn-success"
                                     style={{ width: "100px" }}
                                   >
-                                    View
+                                    View Ticket
                                   </Link>
                                 </div>
                               </td>

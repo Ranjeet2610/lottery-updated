@@ -39,7 +39,7 @@ button {
 }
 
 .table-responsive {
-    padding-right: 1px;
+    padding-right: 0px;
 }
 
 .btn {
@@ -83,6 +83,8 @@ section {
     margin: 0 auto;
     z-index: 1;
 }
+
+
 
 /* ----- Page Wrapper----- */
 /*Override Grid Bootstrap*/
@@ -1333,7 +1335,7 @@ form{
 
 .table-earning thead th {
     background: #333;
-    font-size: 16px;
+    font-size: 13px;
     color: #fff;
     vertical-align: middle;
     font-weight: 400;
@@ -1351,7 +1353,10 @@ form{
 
 @media only screen and (max-width: 768px) {
     tbody td {
-        font-size: 15px;
+        font-size:13px;
+    }
+    tbody td i{
+        width: 10px;
     }
 }
 
@@ -1493,9 +1498,18 @@ form{
         }
     }
 
+    /* @media only screen and (max-width: 768px) {
+        .mobTable{
+            padding: 0 !important;
+            font-size: 8px;
+        }
+    } */
     @media only screen and (max-width: 768px) {
         .btn-admin{
-        font-size: 9px;
+        /* font-size: 25px; */
+        width:95px;
+        font-size: 7px;
+        padding-left:3px;
         }
     }
 
@@ -1531,7 +1545,7 @@ form{
 
 .login-wrap {
     max-width: 540px;
-    padding-top: 8vh;
+    padding-top: 15vh;
     margin: 0 auto;
 }
 
