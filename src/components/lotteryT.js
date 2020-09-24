@@ -95,7 +95,7 @@ export default class Lottery extends Component {
                     }
                     
                     
-                        <div className="container" >
+                    <div className="container" >
                         <div className="row row-one" >
                             <div className="col-lg-3 col-3" >
                                 <small className="heading-1">{this.state.propsInfo.ele._id}</small>
@@ -142,52 +142,51 @@ export default class Lottery extends Component {
                         // <!-- Thrid Container -->  
                     }
                     
-                    <div className="container text-center mt-4">
+                    <div className="container text-center mt-4 pl-4">
                         <div className="row">
-                            <div className="col-lg-2 col-2 nos">
+                            <div className="col-lg-2 col-md-2 col-3 nos">
                                 <small><span style={{fontSize: "22px", fontWeight: "500"}}>1</span>(One)</small> <br/>
                                 <small>₹{this.state.propsInfo.ele.one}</small>
                             </div>
 
-                            <div className="col-lg-2 col-2 nos">
+                            <div className="col-lg-2 col-md-2 col-3 nos">
                                 <small><span style={{fontSize: "22px", fontWeight: "500"}}>2</span>(Two)</small> <br/>
                                 <small>₹{this.state.propsInfo.ele.two}</small>
                             </div>
-                            <div className="col-lg-2 col-2 nos">
+                            <div className="col-lg-2 col-md-3 col-3 nos">
                                 <small><span style={{fontSize: "22px", fontWeight: "500"}}>3</span>(Three)</small><br/>
                                 <small>₹{this.state.propsInfo.ele.three}</small>
                             </div>
-                            <div className="col-lg-2 col-2 nos">
+                            <div className="col-lg-2 col-md-3 col-3 nos">
                                 <small><span style={{fontSize: "22px", fontWeight: "500"}}>4</span>(Four)</small> <br/>
                                 <small>₹{this.state.propsInfo.ele.four}</small>
                             </div>
-                            <div className="col-lg-2 col-2 nos">
+                            <div className="col-lg-2 col-md-2 col-3 nos">
                                 <small><span style={{fontSize: "22px", fontWeight: "500"}}>5</span>(Five)</small> <br/>
                                 <small>₹{this.state.propsInfo.ele.five}</small>
                             </div>
-                        </div>
-                        <div className="row mt-3">
-                            <div className="col-lg-2 col-2 nos">
+                        
+                            <div className="col-lg-2 col-md-2 col-3 nos">
                                 <small><span style={{fontSize: "22px", fontWeight: "500"}}>6</span>(Six)</small> <br/>
                                 <small>₹{this.state.propsInfo.ele.six}</small>
                             </div>
 
-                            <div className="col-lg-2 col-2 nos">
+                            <div className="col-lg-2 col-md-2 col-3 nos">
                                 <small><span style={{fontSize: "22px", fontWeight: "500"}}>7</span>(Seven)</small> <br/>
                                 <small>₹{this.state.propsInfo.ele.seven}</small>
                             </div>
 
-                            <div className="col-lg-2 col-2 nos">
+                            <div className="col-lg-2 col-md-3 col-3 nos">
                                 <small><span style={{fontSize: "22px", fontWeight: "500"}}>8</span>(Eight)</small> <br/>
                                 <small>₹{this.state.propsInfo.ele.eight}</small>
                             </div>
 
-                            <div className="col-lg-2 col-2 nos">
+                            <div className="col-lg-2 col-md-3 col-3 nos">
                                 <small><span style={{fontSize: "22px", fontWeight: "500"}}>9</span>(Nine)</small> <br/>
                                 <small>₹{this.state.propsInfo.ele.nine}</small>
                             </div>
 
-                            <div className="col-lg-2 col-2 nos">
+                            <div className="col-lg-2 col-md-2 col-3 nos">
                                 <small><span style={{fontSize: "22px", fontWeight: "500"}}>10</span>(Ten)</small> <br/>
                                 <small>₹{this.state.propsInfo.ele.ten}</small>
                             </div>
@@ -216,7 +215,7 @@ export default class Lottery extends Component {
 
                         <div className="row row-eight">
                             {
-                                <div className="col-lg-12 col-12">
+                                <div className="">
                                     <QRCode value={this.state.qrInfo} />
                                 </div>
                             }
