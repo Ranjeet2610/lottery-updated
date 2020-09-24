@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import '../Assets/css/style-2.css'
-import Barcode from '../Assets/images/bar-code2.jpg'
 import { POST } from '../Services/Api';
+import QRCode from "qrcode.react";
 
 export default class Lottery extends Component {
     constructor(props){
@@ -9,7 +9,8 @@ export default class Lottery extends Component {
         this.state={
             propsInfo:this.props.info,
             addEvent:[],
-            resultDate:''
+            resultDate:'',
+            qrInfo:''
         }
     }
 
@@ -19,21 +20,78 @@ export default class Lottery extends Component {
             this.setState({
                 addEvent:res.data.resultDetail
             })
-            // console.log("asd",this.state.addEvent)
         })
         .catch(error=>{
             console.log(error)
         })
+        this.filterAmount();
     }
 
-    render() {
+
+    filterAmount = () => {
+        let obj =[];
+            Object.keys(this.state.propsInfo.ele).map((item, i) => {
+                if(this.state.propsInfo.ele[item]>0){
+                    if(item==="one"){
+                        let num="1"
+                        obj.push(`${num}=${this.state.propsInfo.ele[item]}Rs`)
+                    }
+                    else if(item==="two"){
+                        let num="2"
+                        obj.push(`${num}=${this.state.propsInfo.ele[item]}Rs`)
+                    }
+                    else if(item==="three"){
+                        let num="3"
+                        obj.push(`${num}=${this.state.propsInfo.ele[item]}Rs`)
+                    }
+                    else if(item==="four"){
+                        let num="4"
+                        obj.push(`${num}=${this.state.propsInfo.ele[item]}Rs`)
+                    }
+                    else if(item==="five"){
+                        let num="5"
+                        obj.push(`${num}=${this.state.propsInfo.ele[item]}Rs`)
+                    }
+                    else if(item==="six"){
+                        let num="6"
+                        obj.push(`${num}=${this.state.propsInfo.ele[item]}Rs`)
+                    }
+                    else if(item==="seven"){
+                        let num="7"
+                        obj.push(`${num}=${this.state.propsInfo.ele[item]}Rs`)
+                    }
+                    else if(item==="eight"){
+                        let num="8"
+                        obj.push(`${num}=${this.state.propsInfo.ele[item]}Rs`)
+                    }
+                    else if(item==="nine"){
+                        let num="9"
+                        obj.push(`${num}=${this.state.propsInfo.ele[item]}Rs`)
+                    }
+                    else if(item==="ten"){
+                        let num="10"
+                        obj.push(`${num}=${this.state.propsInfo.ele[item]}Rs`)
+                    }
+                    else{
+                        obj.push(`${item}=${this.state.propsInfo.ele[item]}Rs`)
+                    }
+                    
+                }
+            }
+        )
         
+            this.setState({
+                qrInfo:obj.join(', ')
+            })
+        }
+
+    render() {
         return (
             <div>
                 <div className="wrapper container">
                 {
                     // <div className="logo"></div>
-                        // <!-- First Container -->
+                    // <!-- First Container -->
                     }
                     
                     
@@ -83,6 +141,7 @@ export default class Lottery extends Component {
                     {
                         // <!-- Thrid Container -->  
                     }
+                    
                     <div className="container text-center mt-4">
                         <div className="row">
                             <div className="col-lg-2 col-2 nos">
@@ -156,9 +215,11 @@ export default class Lottery extends Component {
                         </div>
 
                         <div className="row row-eight">
-                            <div className="col-lg-12 col-12">
-                                <img src={Barcode} className="img-fluid" alt="barCode"/>
-                            </div>
+                            {
+                                <div className="col-lg-12 col-12">
+                                    <QRCode value={this.state.qrInfo} />
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>

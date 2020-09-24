@@ -28,13 +28,14 @@ export default class adminPage extends Component {
       eventFlag:false,
       indx:'',
       ticketHistoryData:[],
-      winningNumber:'',
+      winningNumber:'1',
       ResultDate:new Date(),
       ResultTime:new Date().toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1").substring(0,5),
       OpenDate:new Date(),
       OpenTime:new Date().toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1").substring(0,5),
       resultSettlement:false,
       userID:'',
+      successfulMsg:'',
       brr:[1,2,3,4,5,6,7,8,9,10]
     };
   }
@@ -48,13 +49,10 @@ export default class adminPage extends Component {
       OpenTime:time
     })
     this.getAgentList();
-    // var myDate = new Date().toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1").substring(0,5);
-    // console.log(myDate)
-    // console.log(this.state.ResultDate.toLocaleString('en-GB', { timeZone: 'UTC' }).substring(0,10));
-    console.log("rd",this.state.ResultDate.toLocaleString('en-GB', { timeZone: 'UTC' }).substring(0,10),
-    "od",this.state.OpenDate.toLocaleString('en-GB', { timeZone: 'UTC' }).substring(0,10),
-    "ot",this.state.OpenTime,
-    "rt",this.state.ResultTime)
+    // console.log("rd",this.state.ResultDate.toLocaleString('en-GB', { timeZone: 'UTC' }).substring(0,10),
+    // "od",this.state.OpenDate.toLocaleString('en-GB', { timeZone: 'UTC' }).substring(0,10),
+    // "ot",this.state.OpenTime,
+    // "rt",this.state.ResultTime)
   }
 
   getAgentList = async () => {
@@ -277,7 +275,19 @@ export default class adminPage extends Component {
       })
     }
     else if(apiType==="Result Settlement"){
-      console.log("No Api....!")
+      const obj = {
+        winningNo:this.state.winningNumber
+      }
+      POST("settleTickets",obj)
+      .then(res=>{
+        this.setState({
+          successfulMsg:res.data.message
+        })
+        console.log(res)
+      })
+      .catch(error=>{
+        console.log(error)
+      })
     }
   }
 
@@ -421,8 +431,9 @@ export default class adminPage extends Component {
             }
             <Modal show={this.state.resultSettlement} onHide={()=>this.handleClose("Result Settlement")}>
                               <Modal.Header closeButton className="">
-                                <Modal.Title>{this.state.eventFlag ? "Add Event" : "Result Settlement"}</Modal.Title>
-                              </Modal.Header>
+                                <Modal.Title>{this.state.eventFlag ? "Add Event" : "Result Settlement"}</Modal.Title><br/>
+                                </Modal.Header>
+                                <div>{this.state.successfulMsg ? <h6 className="ml-2 text-success">{this.state.successfulMsg}</h6> : null}</div>
                               {
                                 this.state.eventFlag ?
                                 <Modal.Body>
