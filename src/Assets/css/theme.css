@@ -92,6 +92,9 @@ section {
     .container {
         max-width: 1320px;
     }
+    .blah{
+        margin-left: 5rem;
+    }
 }
 
 /*Page Objects*/
@@ -448,6 +451,9 @@ form{
 @media (max-width: 767px) {
     .noti__item {
         margin-right: 20px;
+    }
+    .num{
+        font-size: 12px;
     }
 }
 
