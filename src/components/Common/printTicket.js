@@ -16,22 +16,20 @@ export default class printTicket extends Component {
     render() {
         return (
             <div>
-                <div className="d-flex">
-                    <div className="ml-5">
-                        <button className="btn btn-primary m-2 ml-5">Share</button>
-                    </div>
-                    
-                    <div className="">
-                        <ReactToPrint
-                            trigger={() => {
-                            return (
-                                <div className="">
-                                    <button className="btn btn-success m-2">Print</button>
-                                </div>)
-                            }}
-                            content={() => this.componentRef}
-                        />
-                    </div>
+                <div className="d-flex float-right pr-5 mr-5">
+                    <ReactToPrint
+                        trigger={() => {
+                        return (
+                            <div style={{paddingLeft:'100px'}}>
+                                <button className="btn btn-success m-2">Print</button>
+                            </div>)
+                        }}
+                        content={() => this.componentRef}
+                    />
+                      <button className="btn btn-primary m-2"  onClick={(e) => {
+                           e.preventDefault();
+                           window.location.href='https://api.whatsapp.com/send?phone=12134104200&text=';
+                          }}>Share</button>         
                 </div>
                 <div className="align-item-center m-3 border">
                     <LotteryT info={this.state.ticketData} ref={el => (this.componentRef = el)} />

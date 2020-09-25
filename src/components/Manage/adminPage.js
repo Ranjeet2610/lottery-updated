@@ -88,6 +88,7 @@ export default class adminPage extends Component {
     if (modalForm === "Deposit")
       this.setState({
         depositModal: true,
+        chipFlag: false,
         id:userId,
         updatedChips:wallet
       });
@@ -252,6 +253,23 @@ export default class adminPage extends Component {
     POST("deleteAgent",obj)
     .then(res=>{
       this.getAgentList();
+    })
+    .catch(error=>{
+      console.log(error)
+    })
+  }
+
+  updateResult = () => {
+    const obj = {
+      resultDate:this.state.ResultDate.toLocaleString('en-GB', { timeZone: 'UTC' }).substring(0,10),
+      openDate:this.state.OpenDate.toLocaleString('en-GB', { timeZone: 'UTC' }).substring(0,10),
+      openTime:this.state.OpenTime,
+      resultTime:this.state.ResultTime
+    }
+    console.log(obj)
+    POST("updateResult",obj)
+    .then(res=>{
+      console.log(res)
     })
     .catch(error=>{
       console.log(error)
