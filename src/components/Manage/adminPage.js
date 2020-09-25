@@ -28,28 +28,31 @@ export default class adminPage extends Component {
       eventFlag:false,
       indx:'',
       ticketHistoryData:[],
-      winningNumber:'',
+      winningNumber:'1',
       ResultDate:new Date(),
-      ResultTime:'',
+      ResultTime:new Date().toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1").substring(0,5),
       OpenDate:new Date(),
-      OpenTime:'',
+      OpenTime:new Date().toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1").substring(0,5),
       resultSettlement:false,
       userID:'',
+      successfulMsg:'',
       brr:[1,2,3,4,5,6,7,8,9,10]
     };
   }
 
-  componentDidMount() {
-    let hour = new Date().getHours()
-    let min = new Date().getMinutes()
-    let time=hour+":"+min
-    this.setState({
+  async componentDidMount() {
+    // let hour = new Date().getHours()
+    // let min = new Date().getMinutes()
+    let time=new Date().toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1").substring(0,5);
+    await this.setState({
       ResultTime:time,
       OpenTime:time
     })
-    // console.log(this.state.ResultDate)
-    console.log(this.state.ResultDate.toLocaleString('en-GB', { timeZone: 'UTC' }).substring(0,10));
     this.getAgentList();
+    // console.log("rd",this.state.ResultDate.toLocaleString('en-GB', { timeZone: 'UTC' }).substring(0,10),
+    // "od",this.state.OpenDate.toLocaleString('en-GB', { timeZone: 'UTC' }).substring(0,10),
+    // "ot",this.state.OpenTime,
+    // "rt",this.state.ResultTime)
   }
 
   getAgentList = async () => {
@@ -275,10 +278,34 @@ export default class adminPage extends Component {
 
   handleSubmit = (apiType) => {
     if(apiType==="Add Event"){
-      this.updateResult();
+      const obj = {
+        resultDate:this.state.ResultDate.toLocaleString('en-GB', { timeZone: 'UTC' }).substring(0,10),
+        openDate:this.state.OpenDate.toLocaleString('en-GB', { timeZone: 'UTC' }).substring(0,10),
+        openTime:this.state.OpenTime,
+        resultTime:this.state.ResultTime
+      }
+      POST("updateResult",obj)
+      .then(res=>{
+        console.log("ur",res)
+      })
+      .catch(error=>{
+        console.log(error)
+      })
     }
     else if(apiType==="Result Settlement"){
-      console.log("No Api....!")
+      const obj = {
+        winningNo:this.state.winningNumber
+      }
+      POST("settleTickets",obj)
+      .then(res=>{
+        this.setState({
+          successfulMsg:res.data.message
+        })
+        console.log(res)
+      })
+      .catch(error=>{
+        console.log(error)
+      })
     }
   }
 
@@ -290,31 +317,32 @@ export default class adminPage extends Component {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-lg-12">
-                            <button className="btn btn-admin btn-danger float-right mb-4" onClick={this.handleDelete}>
+                          <div className="float-right p-2">
+                            <button className="btn btn-admin btn-danger m-1 mr-1" style={{}} onClick={this.handleDelete}>
                                 <i className="fa fa-trash mr-2"/>
                                 DELETE AGENT
                             </button>
-                            <button className="btn btn-admin btn-dark float-right mb-4 mr-2" onClick={this.handleBlock}>
+                            <button className="btn btn-admin btn-dark m-1 mr-1" onClick={this.handleBlock}>
                                 <i className="fa fa-ban text-danger mr-2" />
                                 BLOCK / UNBLOCK
                             </button>
-                            <button className="btn btn-admin btn-success float-right mb-4 mr-2" onClick={() => this.handleShow("AddAgent")}>
+                            <button className="btn btn-admin btn-success m-1 mr-1" onClick={() => this.handleShow("AddAgent")}>
                                 <i className="fas fa-plus mr-2" />
                                 ADD AGENT
                             </button>
                             <button 
-                              className="btn btn-admin btn-secondary float-right mb-4 mr-2" 
+                              className="btn btn-admin btn-dark m-1 mr-1" 
                               onClick={() => this.handleShow("Result Settlement")}>
-                              <i className="fas fa-poll mr-2" />
+                              <i className="fas fa-poll mr-2 mt-1" />
                               Result Settlement
                             </button>                  
                             <button 
-                              className="btn btn-admin btn-secondary float-right mb-4 mr-2" 
+                              className="btn btn-admin btn-dark m-1 mr-1 " 
                               onClick={() => this.handleShow("AddEvent")}>
                               <i className="fas fa-plus mr-2" />
                                 Add Event
                             </button>    
-                            
+                          </div> 
                             {
                               // <span className="mr-2">Result Date:</span>                
                               // <DatePicker selected={this.state.resultDate} onChange={(date)=>this.handleDatepicker(date)}/><br/>
@@ -322,14 +350,14 @@ export default class adminPage extends Component {
 
                             <div className="table-responsive m-b-30">
                                 <table className="table table-bordered table-striped table-earning table-hover">
-                                    <thead>
+                                    <thead >
                                         <tr>
-                                        <th>S.No.</th>
-                                        <th>Agent ID</th>
-                                        <th>Website</th>
-                                        <th>commission</th>
-                                        <th>Credit Limit</th>
-                                        <th>View More</th>
+                                        <th className="">S.No.</th>
+                                        <th className="">Agent&nbsp;ID</th>
+                                        <th className="">Website</th>
+                                        <th className="">commission</th>
+                                        <th className="">Credit&nbsp;Limit</th>
+                                        <th className="">View More</th>
                                         </tr>
                                     </thead>
                                         {
@@ -341,18 +369,16 @@ export default class adminPage extends Component {
 
                                                     <tr>
                                                         <td className="align-middle">
-                                                        {index+1}&nbsp;
-                                                        <input
-                                                            name="radio"
-                                                            type="radio"
-                                                            onClick={() => {
-                                                            this.handleLock(ele.userName,ele.id);
-                                                            }}
-                                                        />
-                                                        &nbsp;
-                                                        {ele.blocked ? (
-                                                            <i className="fas fa-ban text-danger" />
-                                                        ) : null}
+                                                          {index+1}&nbsp;
+                                                          <input
+                                                              name="radio"
+                                                              type="radio"
+                                                              onClick={() => {
+                                                              this.handleLock(ele.userName,ele.id);
+                                                              }}
+                                                          />
+                                                          &nbsp;
+                                                          {ele.blocked ? (<i className="fas fa-ban text-danger" />) : null}
                                                         </td>
                                                         <td className="align-middle">{ele.userName}</td>
                                                         <td className="align-middle">{ele.id}</td>
@@ -422,9 +448,10 @@ export default class adminPage extends Component {
               // Modal for Result SettleMent and Add Event
             }
             <Modal show={this.state.resultSettlement} onHide={()=>this.handleClose("Result Settlement")}>
-                              <Modal.Header closeButton className="bg-dark">
-                                <Modal.Title>{this.state.eventFlag ? "Add Event" : "Result Settlement"}</Modal.Title>
-                              </Modal.Header>
+                              <Modal.Header closeButton className="">
+                                <Modal.Title>{this.state.eventFlag ? "Add Event" : "Result Settlement"}</Modal.Title><br/>
+                                </Modal.Header>
+                                <div>{this.state.successfulMsg ? <h6 className="ml-2 text-success">{this.state.successfulMsg}</h6> : null}</div>
                               {
                                 this.state.eventFlag ?
                                 <Modal.Body>
@@ -487,7 +514,7 @@ export default class adminPage extends Component {
                                 </select>
                                 </Modal.Body>
                               }
-                              <Modal.Footer className="justify-content-center bg-dark">
+                              <Modal.Footer className="justify-content-center">
                               <button className="btn btn-info" onClick={this.state.eventFlag ? ()=>this.handleSubmit("Add Event") : ()=>this.handleSubmit("Result Settlement")}>Submit</button>
                               </Modal.Footer>
                             </Modal>
@@ -498,7 +525,7 @@ export default class adminPage extends Component {
 
             <Modal show={this.state.agentModal} onHide={() => {this.handleClose("AddAgent")}}>
                 <Modal.Header closeButton>
-                    <Modal.Title style={{ paddingLeft: "175px" }}>
+                    <Modal.Title>
                     <span style={{ fontSize: "25px", fontFamily: "sans-serif" }}>
                         Add Agent
                     </span>

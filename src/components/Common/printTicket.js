@@ -31,7 +31,10 @@ export default class printTicket extends Component {
                            window.location.href='https://api.whatsapp.com/send?phone=12134104200&text=';
                           }}>Share</button>         
                 </div>
-                <LotteryT info={this.state.ticketData} ref={el => (this.componentRef = el)} />
+                <div className="align-item-center m-3 border">
+                    <LotteryT info={this.state.ticketData} ref={el => (this.componentRef = el)} />
+                </div>
+                 
             </div>
         )
     }
