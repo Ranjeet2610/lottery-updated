@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BaseUrl = "http://localhost:4002/api/";
+const BaseUrl = "http://34.217.68.90:4000/api/";
 
 export const POST = async (route, data, header='') => {
     try{
