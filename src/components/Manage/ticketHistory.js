@@ -13,12 +13,13 @@ export default class ticketHistory extends Component {
                             <tr className="text-center">
                                 <th>S.No.</th>
                                 <th>number</th>
-                                <th>ticket amount</th>
-                                <th>draw number</th>
-                                <th>date & time</th>
+                                <th>ticket&nbsp;amount</th>
+                                <th>draw&nbsp;number</th>
+                                <th>date&nbsp;&&nbsp;time</th>
                             </tr>
                         </thead>
                     { 
+                        listdata.length > 0 ?
                         listdata.map((ele) =>{
                             i+=1
                             return(
@@ -33,7 +34,11 @@ export default class ticketHistory extends Component {
                             </tbody>
                             )
                         })
-                    
+                        :
+                        <tr>
+                            <td style={{fontSize:'50px',paddingLeft:'35rem',paddingTop:'5rem'}} colspan="5">No Data !</td>
+                            
+                        </tr>                       
                     }
 
                     </table>

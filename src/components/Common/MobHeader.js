@@ -15,7 +15,8 @@ export default class MobHeader extends Component {
         oldPassword:'',
         newPassword:'',
         confirmPassword:'',
-        userType:''
+        userType:'',
+        navbar:'none'
     }
 }
 
@@ -23,19 +24,21 @@ export default class MobHeader extends Component {
         let user = JSON.parse(localStorage.getItem("user"))
         await this.setState({
             userName:user.data.userName,
-            userType:user.data.userType
+            userType:user.data.userType,
+            userWallet:user.data.walletBalance,
         })
     }
 
     handleNavbar = (parameter) => {
         if(parameter==="Navbar"){
-            if(this.state.display==='none')
+            if(this.state.navbar==='none'|| this.state.drop==='none')
                 this.setState({
-                display:'block'
+                navbar:'block',
+                drop:''
             })
-            if(this.state.display==='block')
+            if(this.state.navbar==='block' )
                 this.setState({
-                display:'none'
+                navbar:'none'
             })
         }
         if(parameter==='Admin'){
@@ -71,9 +74,10 @@ export default class MobHeader extends Component {
     }
 
     handleDrop = () => {
-        if(this.state.drop==='')
+        if(this.state.drop==='' || this.state.navbar==='block')
         this.setState({
-            drop:"none"
+            drop:"none",
+            navbar:'none'
         })
         if(this.state.drop==='none')
         this.setState({
@@ -144,6 +148,12 @@ export default class MobHeader extends Component {
                                         </div>
                                         <div className="account-dropdown js-dropdown" style={{"transform":this.state.drop}}>
                                             <ul style={{listStyle:'none'}}>
+                                                <li className="account-dropdown__footer">
+                                                    <Link>
+                                                        <i className="fas fa-wallet" />
+                                                        <b>Bal:</b>&nbsp;Rs&nbsp;{this.state.userWallet}
+                                                    </Link>
+                                                </li>
                                                 <li className="account-dropdown__body">
                                                     <div className="account-dropdown__item">
                                                         <Link onClick={this.handleShow}>
@@ -208,7 +218,7 @@ export default class MobHeader extends Component {
                         // Navbar block
                     }
                     
-                        <nav className="navbar-mobile" style={{"display" : this.state.display}}>
+                        <nav className="navbar-mobile" style={{"display" : this.state.navbar}}>
                             <div className="container-fluid">
                             {
                                 (this.state.userType===1) ?

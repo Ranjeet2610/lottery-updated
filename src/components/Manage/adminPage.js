@@ -36,6 +36,10 @@ export default class adminPage extends Component {
       resultSettlement:false,
       userID:'',
       successfulMsg:'',
+      emptyMsg:'',
+      reqID:'',
+      reqComm:'',
+      reqPwd:'',
       brr:[1,2,3,4,5,6,7,8,9,10]
     };
   }
@@ -162,7 +166,137 @@ export default class adminPage extends Component {
       });
   };
 
-  handleAddUser = () => {
+  hasNumber = (num) => {
+    return /\d/.test(num)
+  }
+
+  lowerCaseLetters=(char)=>{
+    var lowerCaseLetters = /[a-z]/g;
+    if(char.match(lowerCaseLetters)){
+      return false
+    }
+    else{
+      return true
+    }
+  }
+  
+  upperCaseLetters=(char)=>{
+    // debugger
+    let upperCaseLetters = /[A-Z]/g;
+    if(char.match(upperCaseLetters)){
+      return false
+    }
+    else{
+      return true
+    }
+  }
+
+  agentValidation = async () => {
+    // debugger
+   if(this.state.Name===""){
+    await this.setState({
+      reqMsg:'This fields is required !',
+      naam:false
+    })
+   }else{
+    await this.setState({
+      naam:true
+    })
+   }
+
+   let num = this.hasNumber(this.state.userName)
+    if(this.state.userName!==""){
+      if(this.state.userName.length>=8 && num)
+      {
+        let char = this.state.userName[0]
+        let chL = this.lowerCaseLetters(char);
+        let chU = this.upperCaseLetters(char);
+        if(chU && chL){
+        // if(char<65 || char>90 || char<97 || char>122){
+          await this.setState({
+            reqID:'Userid must have 1st letter alphabet',
+            userNaam:false
+          })
+        }else{
+          await this.setState({
+            userNaam:true
+          })
+        }
+      }
+      else
+      {
+        await this.setState({
+          reqID:'Userid must have 8 characters & alpha-numeric',
+          userNaam:false
+        })
+      }
+    }
+    else{
+      await this.setState({
+        reqID:'This fields is required !',
+        userNaam:false
+      })
+    }
+
+    if(this.state.Commission!==""){
+      if(parseInt(this.state.Commission)<1 && parseInt(this.state.Commission)>100){
+        await this.setState({
+          reqComm:'This must be b/w 1 & 100.',
+          comm:false
+        })
+      }else if(parseInt(this.state.Commission)>=1 && parseInt(this.state.Commission)<=100){
+        await this.setState({
+          comm:true
+        })
+      }
+      else{
+        await this.setState({
+          reqComm:'You have entered wrong number !',
+          comm:false
+        })
+      }
+    }
+    else{
+      await this.setState({
+        reqComm:'This fields is required !',
+        comm:false
+      })
+    }
+
+  // debugger
+    if(this.state.password!=="" && this.state.password.length>=8){
+      let char = this.state.password[0]
+      // let chL = this.lowerCaseLetters(char);
+      let chU = this.upperCaseLetters(char);
+      if(chU){
+        await this.setState({
+          reqPwd:'1st letter capital & length must be 8',
+          pwd:false
+        })
+      }else{
+        await this.setState({
+          pwd:true
+        })
+      }
+    }
+    else{
+      await this.setState({
+        reqPwd:'This fields is required !',
+        pwd:false
+      })
+    }
+
+    if(this.state.naam && this.state.userNaam && this.state.comm && this.state.pwd){
+      return true
+    }else{
+      return false
+    }
+  }
+
+  handleAddUser = async (event) => {
+    event.preventDefault();
+    let permit = await this.agentValidation()
+    if(permit===true){
     const obj = {
       Name: this.state.Name,
       userName: this.state.userName,
@@ -177,7 +311,8 @@ export default class adminPage extends Component {
       .catch((error) => {
         console.log(error);
       });
-    this.handleClose("AddAgent");
+      await this.handleClose("AddAgent");
+    }
   };
 
   handleUpdateChip = (id, flag) => {
@@ -361,7 +496,7 @@ export default class adminPage extends Component {
                                         </tr>
                                     </thead>
                                         {
-                                          (this.state.agentInfo.length < 0) ? <div className="justify-content-center">Empty !</div> :
+                                          (this.state.agentInfo.length <= 0) ? <div className="justify-content-center">Empty !</div> :
                                             (this.state.agentInfo.map((ele, index) => {
                                                
                                                 return (
@@ -524,6 +659,7 @@ export default class adminPage extends Component {
             }
 
             <Modal show={this.state.agentModal} onHide={() => {this.handleClose("AddAgent")}}>
+            <form>
                 <Modal.Header closeButton>
                     <Modal.Title>
                     <span style={{ fontSize: "25px", fontFamily: "sans-serif" }}>
@@ -537,20 +673,22 @@ export default class adminPage extends Component {
                             <div className="col-lg-6 col-sm-6 col-xs-6">
                                 <div className="md-form mb-4">
                                     <label data-error="wrong" data-success="right" for="defaultForm-email" style={{ color: "black" }}>
-                                        Name
+                                        Name*
                                     </label>
                                     
-                                    <input type="email"id="defaultForm-email" name="Name" onChange={this.handleChange} className="form-control validate" placeholder="name"/>
+                                    <input type="text"  name="Name" onChange={this.handleChange} className="form-control" autoComplete="off" placeholder="name"/>
+                                    <span style={{fontSize:'10px',color:'red'}}>{this.state.reqMsg ? "*"+this.state.reqMsg+"*" : null }</span>
+                                  </div>
                                 </div>
-                            </div>
+            
 
                             <div className="col-lg-6 col-sm-6 col-xs-6">
                                 <div className="md-form mb-4">
                                     <label data-error="wrong" data-success="right" for="defaultForm-email" style={{ color: "black" }} >
-                                        User ID
+                                        User ID*
                                     </label>
-                                    
-                                    <input onChange={this.handleChange} type="email" id="defaultForm-email" name="userName" className="form-control validate" placeholder="User ID" />
+                                    <input onChange={this.handleChange} type="text"  name="userName" className="form-control" autoComplete="off" placeholder="User ID" />
+                                    <span style={{fontSize:'10px',color:'red'}}>{this.state.reqID ? "*"+this.state.reqID+"*" : null }</span>
                                 </div>
                             </div>
                         </div>
@@ -559,46 +697,35 @@ export default class adminPage extends Component {
                             <div className="col-lg-6 col-sm-6 col-xs-6">
                                 <div className="md-form mb-4">
                                     <label data-error="wrong" data-success="right" for="defaultForm-email" style={{ color: "black" }} >
-                                        Commission
+                                        Commission(%)*
                                     </label>
-                                    <input onChange={this.handleChange} type="email" id="defaultForm-email" name="Commission" className="form-control validate" placeholder="Commission" />
+                                    <input onChange={this.handleChange} type="text"  name="Commission" className="form-control" autoComplete="off" placeholder="In percentage" />
+                                    <span style={{fontSize:'10px',color:'red'}}>{this.state.reqComm ? "*"+this.state.reqComm+"*" : null }</span>
                                 </div>
                             </div>
 
-                            {
-                            //   <div className="col-lg-6 col-sm-6 col-xs-6">
-                            //     <div className="md-form mb-4">
-                            //         <label data-error="wrong" data-success="right" for="defaultForm-email" style={{ color: "black" }} >
-                            //             Date
-                            //         </label>
-                            //         <input onChange={this.handleChange} type="date" id="defaultForm-email" name="Date" className="form-control validate" placeholder="Date" />
-                            //     </div>
-                            // </div>
-                            
-                        // <div className="row">
-                      }
-                        <div className="col-lg-6 col-sm-6 col-xs-6">
+                            <div className="col-lg-6 col-sm-6 col-xs-6">
                                 <div className="md-form mb-4">
                                     <label data-error="wrong" data-success="right" for="defaultForm-email" style={{ color: "black" }} >
-                                        Password
+                                        Password*
                                     </label>
-                                    <input onChange={this.handleChange} type="password" id="defaultForm-email" name="password" className="form-control validate" placeholder="Password" />
+                                    <input onChange={this.handleChange} type="text"  name="password" className="form-control validate" autoComplete="off" placeholder="Password" />
+                                    <span style={{fontSize:'10px',color:'red'}}>{this.state.reqPwd ? "*"+this.state.reqPwd+"*" : null }</span>
                                 </div>
                             </div>
                         </div>
                       </div>
-                   { 
-                     //</div>
-                  }
                 </Modal.Body>
+
                 <Modal.Footer style={{ justifyContent: "center" }}>
-                    <button className="btn btn-md btn-success" onClick={this.handleAddUser} >
-                        Add
+                    <button type="submit" className="btn btn-md btn-success" onClick={this.handleAddUser} >
+                      Add
                     </button>
                     <button type="reset" className="btn btn-md btn-secondary">
-                        Reset
+                      Reset
                     </button>
                 </Modal.Footer>
+                </form>
             </Modal>
 
             {
@@ -614,13 +741,13 @@ export default class adminPage extends Component {
                     <div>
                         <label className="ml-4"> 
                             Free Chips: 
-                            <input className="form-control w-100" name="freeChips" onChange={this.handleChange} autoComplete="off"/>
+                            <input className="form-control" style={{width:'200%'}} name="freeChips" onChange={this.handleChange} autoComplete="off"/>
                         </label>
                     </div>
                     <div>
                         <label className="ml-4"> 
                             WalletBalance: 
-                            <input className="form-control w-100" disabled name="freeChips" onChange={this.handleChange} value={this.state.updatedChips} />
+                            <input className="form-control" style={{width:'200%'}} disabled name="freeChips" onChange={this.handleChange} value={this.state.updatedChips} />
                         </label>
                     </div>
                   </div>

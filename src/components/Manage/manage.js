@@ -60,13 +60,15 @@ export default class manage extends Component {
                 AdminPage:false,
                 Manage_Cricket:false,
                 Manage_Lottery:true,
+                ticketHistory:false
             })
         }
         else if(id === "Manage_Cricket"){
             this.setState({
                 AdminPage:false,
                 Manage_Lottery:false,
-                Manage_Cricket:true
+                Manage_Cricket:true,
+                ticketHistory:false
             })
         }
         else if(id === "Admin"){

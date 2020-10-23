@@ -1342,7 +1342,7 @@ form{
 
 .table-earning thead th {
     background: #333;
-    font-size: 13px;
+    font-size: 16px;
     color: #fff;
     vertical-align: middle;
     font-weight: 400;
@@ -1515,8 +1515,8 @@ form{
         .btn-admin{
         /* font-size: 25px; */
         width:95px;
-        font-size: 7px;
-        padding-left:3px;
+        font-size: 8px;
+        padding-left:2px;
         }
     }
 
@@ -1594,5 +1594,47 @@ form{
 
     .mobNav span{
         font-size: 25px !important;
+    }
+}
+
+
+/* New Changes */
+
+@media screen and (max-width: 768px){
+    .dropdown-menu{
+        left: -100px;
+    }
+
+    .dropdown-menu a{
+        font-size: 14px;
+    }
+
+    .button-one{
+        width: 80px;
+        font-size: 11px;
+        padding: 2px 0;
+      }
+
+      .table-earning thead th{
+          font-size: 13px;
+      }
+}
+
+
+@media screen and (min-width: 1024px) and (max-width: 1400px){
+    .dropdown-menu{
+        left: -50px;
+    }
+}
+
+
+
+.cric-btn{
+    margin: 0 5px;
+}
+
+@media screen and (max-width: 768px){
+    .cric-btn{
+        margin: 7px 5px;
     }
 }

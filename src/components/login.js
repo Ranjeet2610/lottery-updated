@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {POST} from '../Services/Api'
+// import Cookies from 'universal-cookie';
 
 export default class login extends Component {
     constructor(props){
@@ -12,6 +13,17 @@ export default class login extends Component {
             errorMsg:'',
         }
     }
+
+    // componentDidMount(){
+    //     let encrypt = Encrypt.AES.encrypt(JSON.stringify(), 'ankit').toString();
+    //     let decrypt = Encrypt.AES.decrypt(encrypt, 'ankit');
+
+    //     console.log('encrypt',encrypt)
+    //     console.log('decrypt',decrypt)
+    //     const cookies = new Cookies();
+    //     cookies.set('myCat', 'Pacman');
+    //     console.log(cookies.get('myCat'));
+    // }
 
     handleOnChange = (event) => {
         this.setState({
@@ -67,7 +79,7 @@ export default class login extends Component {
                                             <h2>Login</h2>
                                         </div>
                                         <div className="login-form">
-                                            <form>
+                                            <form onSubmit={this.handleOnSubmit}>
                                                 <div className="form-group">
                                                     <label for="exampleInputEmail1">User Name</label>
                                                     <input type="text" name="email" onChange={this.handleOnChange} className="form-control" autoComplete="off" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" />
@@ -85,7 +97,7 @@ export default class login extends Component {
                                                 <div className="form-check" style={{color:'red'}}>
                                                     {this.state.loggedIn}
                                                 </div>
-                                                <button type="button" onClick={this.handleOnSubmit} className="btn btn-primary btn-smt-2">sign in</button>
+                                                <button type="submit"  className="btn btn-primary btn-smt-2">sign in</button>
                                             </form>
                                         </div>
                                     </div>

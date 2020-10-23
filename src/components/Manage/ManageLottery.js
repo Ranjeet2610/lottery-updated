@@ -55,6 +55,7 @@ export default class ManageLottery extends Component {
                                         <tbody>
 
                                         {
+                                            this.state.lotteryData<=0?"Empty!":
                                             this.state.lotteryData.map((ele,i)=>{
                                                 return(
                                                     <tr>

@@ -28,7 +28,8 @@ export default class WebHeader extends Component {
     componentDidMount(){
         let user = JSON.parse(localStorage.getItem("user"))
         this.setState({
-            userName:user.data.userName
+            userName:user.data.userName,
+            userWallet:user.data.walletBalance
         })
     }
 
@@ -92,6 +93,13 @@ export default class WebHeader extends Component {
                                             </Link>
                                         </div>
                                         <div className="account-dropdown js-dropdown" style={{"transform":this.state.drop}}>                                       
+                                            <li className="account-dropdown__footer">
+                                                <Link>
+                                                    <i className="fas fa-wallet" />
+                                                    <b>Bal:</b>&nbsp;Rs&nbsp;{this.state.userWallet}
+                                                </Link>
+                                            </li>
+                                        
                                             <div className="account-dropdown__item">
                                                 <Link onClick={this.handleShow}>
                                                     <i className="fas fa-lock" />
