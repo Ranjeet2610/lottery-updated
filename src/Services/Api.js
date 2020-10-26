@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BaseUrl = "http://13.235.16.220:4002/api/";
+const BaseUrl = "http://35.154.149.144:4002/api/";
 
 export const POST = async (route, data, header='') => {
     try{
